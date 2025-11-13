@@ -38,7 +38,11 @@ const router = createRouter({
             name:"login",
             component: Login,
         }
-    ]
+    ],
+    //添加路由行为配置项，vue-router提供的
+    scrollBehavior(){
+      return {top:0}; 
+    }
 });  
 
 export default router;  
