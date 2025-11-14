@@ -1,4 +1,4 @@
-import { defineComponent, getCurrentInstance, ref, computed, unref, onMounted, onUpdated, onActivated, resolveDynamicComponent, h, Fragment, nextTick } from 'vue';
+import { defineComponent, getCurrentInstance, ref, computed, unref, onMounted, onUpdated, onActivated, resolveDynamicComponent, h, Fragment, mergeProps, nextTick } from 'vue';
 import { useEventListener, isClient } from '@vueuse/core';
 import { useCache } from '../hooks/use-cache.mjs';
 import useWheel from '../hooks/use-wheel.mjs';
@@ -327,10 +327,10 @@ const createList = ({
         }
       }
       const InnerNode = [
-        h(Inner, {
+        h(Inner, mergeProps(ctx.innerProps, {
           style: innerStyle,
           ref: "innerRef"
-        }, !isString(Inner) ? {
+        }), !isString(Inner) ? {
           default: () => children
         } : children)
       ];

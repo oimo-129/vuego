@@ -15,6 +15,7 @@ export declare const imageViewerProps: {
     readonly teleported: BooleanConstructor;
     readonly closeOnPressEscape: import("element-plus/es/utils").EpPropFinalized<BooleanConstructor, unknown, unknown, true, boolean>;
     readonly zoomRate: import("element-plus/es/utils").EpPropFinalized<NumberConstructor, unknown, unknown, 1.2, boolean>;
+    readonly scale: import("element-plus/es/utils").EpPropFinalized<NumberConstructor, unknown, unknown, 1, boolean>;
     readonly minScale: import("element-plus/es/utils").EpPropFinalized<NumberConstructor, unknown, unknown, 0.2, boolean>;
     readonly maxScale: import("element-plus/es/utils").EpPropFinalized<NumberConstructor, unknown, unknown, 7, boolean>;
     readonly showProgress: BooleanConstructor;
@@ -29,6 +30,7 @@ export type ImageViewerProps = ExtractPropTypes<typeof imageViewerProps>;
 export type ImageViewerPropsPublic = __ExtractPublicPropTypes<typeof imageViewerProps>;
 export declare const imageViewerEmits: {
     close: () => boolean;
+    error: (evt: Event) => boolean;
     switch: (index: number) => boolean;
     rotate: (deg: number) => boolean;
 };

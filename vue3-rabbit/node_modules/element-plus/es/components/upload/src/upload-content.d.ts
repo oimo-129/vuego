@@ -12,12 +12,12 @@ export declare const uploadContentProps: {
         new (): any;
         readonly prototype: any;
     })[], unknown, unknown, () => void, boolean>;
-    readonly onRemove: import("element-plus/es/utils").EpPropFinalized<(new (...args: any[]) => (file: UploadFile | UploadRawFile, rawFile?: UploadRawFile) => void) | (() => (file: UploadFile | UploadRawFile, rawFile?: UploadRawFile) => void) | {
-        (): (file: UploadFile | UploadRawFile, rawFile?: UploadRawFile) => void;
+    readonly onRemove: import("element-plus/es/utils").EpPropFinalized<(new (...args: any[]) => (file: UploadFile | UploadRawFile) => void) | (() => (file: UploadFile | UploadRawFile) => void) | {
+        (): (file: UploadFile | UploadRawFile) => void;
         new (): any;
         readonly prototype: any;
-    } | ((new (...args: any[]) => (file: UploadFile | UploadRawFile, rawFile?: UploadRawFile) => void) | (() => (file: UploadFile | UploadRawFile, rawFile?: UploadRawFile) => void) | {
-        (): (file: UploadFile | UploadRawFile, rawFile?: UploadRawFile) => void;
+    } | ((new (...args: any[]) => (file: UploadFile | UploadRawFile) => void) | (() => (file: UploadFile | UploadRawFile) => void) | {
+        (): (file: UploadFile | UploadRawFile) => void;
         new (): any;
         readonly prototype: any;
     })[], unknown, unknown, () => void, boolean>;

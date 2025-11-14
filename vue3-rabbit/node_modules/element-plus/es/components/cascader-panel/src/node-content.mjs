@@ -1,4 +1,5 @@
-import { defineComponent, createVNode, Comment } from 'vue';
+import { defineComponent, inject, createVNode, Comment } from 'vue';
+import { CASCADER_PANEL_INJECTION_KEY } from './types.mjs';
 import { useNamespace } from '../../../hooks/use-namespace/index.mjs';
 import { isArray } from '@vue/shared';
 
@@ -13,13 +14,14 @@ var NodeContent = defineComponent({
     node: {
       type: Object,
       required: true
-    },
-    renderLabelFn: Function
+    }
   },
   setup(props) {
     const ns = useNamespace("cascader-node");
     const {
-      renderLabelFn,
+      renderLabelFn
+    } = inject(CASCADER_PANEL_INJECTION_KEY);
+    const {
       node
     } = props;
     const {

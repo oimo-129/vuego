@@ -166,7 +166,7 @@ const TableV2 = defineComponent({
         scrollbarStartGap: 2,
         scrollbarEndGap: vScrollbarSize,
         width: rightColumnsWidth,
-        style: `--${unref(ns.namespace)}-table-scrollbar-size: ${vScrollbarSize}px`,
+        style: `${ns.cssVarName("table-scrollbar-size")}: ${vScrollbarSize}px`,
         useIsScrolling,
         getRowHeight,
         onScroll: onVerticalScroll
@@ -238,9 +238,7 @@ const TableV2 = defineComponent({
           }
         })
       };
-      const rootKls = [props.class, ns.b(), ns.e("root"), {
-        [ns.is("dynamic")]: unref(isDynamic)
-      }];
+      const rootKls = [props.class, ns.b(), ns.e("root"), ns.is("dynamic", unref(isDynamic))];
       const footerProps = {
         class: ns.e("footer"),
         style: unref(footerHeight)

@@ -5,7 +5,7 @@ import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '../../../constants/event.mjs';
 
 const CommonProps = buildProps({
   modelValue: {
-    type: definePropType([Number, String, Array])
+    type: definePropType([Number, String, Array, Object])
   },
   options: {
     type: definePropType(Array),
@@ -28,7 +28,10 @@ const DefaultProps = {
   children: "children",
   leaf: "leaf",
   disabled: "disabled",
-  hoverThreshold: 500
+  hoverThreshold: 500,
+  checkOnClickNode: false,
+  checkOnClickLeaf: true,
+  showPrefix: true
 };
 const cascaderPanelProps = buildProps({
   ...CommonProps,

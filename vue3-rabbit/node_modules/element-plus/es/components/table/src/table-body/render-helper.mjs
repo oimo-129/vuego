@@ -30,6 +30,7 @@ function useRender(props) {
     getSpan,
     getColspanRealWidth
   } = useStyles(props);
+  let displayIndex = -1;
   const firstDefaultColumnIndex = computed(() => {
     var _a;
     return (_a = props.store) == null ? void 0 : _a.states.columns.value.findIndex(({ type }) => type === "default");
@@ -45,12 +46,19 @@ function useRender(props) {
   const rowRender = (row, $index, treeRowData, expanded = false) => {
     const { tooltipEffect, tooltipOptions, store } = props;
     const { indent, columns } = store.states;
-    const rowClasses = getRowClass(row, $index);
+    const rowClasses = [];
     let display = true;
     if (treeRowData) {
       rowClasses.push(ns.em("row", `level-${treeRowData.level}`));
       display = !!treeRowData.display;
     }
+    if ($index === 0) {
+      displayIndex = -1;
+    }
+    if (props.stripe && display) {
+      displayIndex++;
+    }
+    rowClasses.push(...getRowClass(row, $index, displayIndex));
     const displayStyle = display ? null : { display: "none" };
     return h("tr", {
       style: [displayStyle, getRowStyle(row, $index)],

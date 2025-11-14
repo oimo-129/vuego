@@ -1,7 +1,7 @@
 import type { Option } from './types';
 declare function __VLS_template(): {
     default?(_: {
-        item: Option;
+        item: any;
     }): any;
 };
 declare const __VLS_component: import("vue").DefineComponent<{

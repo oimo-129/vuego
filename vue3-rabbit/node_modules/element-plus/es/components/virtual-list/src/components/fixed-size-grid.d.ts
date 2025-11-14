@@ -10,6 +10,7 @@ declare const FixedSizeGrid: import("vue").DefineComponent<{
         __epPropKey: true;
     };
     readonly innerElement: import("element-plus/es/utils").EpPropFinalized<readonly [StringConstructor, ObjectConstructor], unknown, unknown, "div", boolean>;
+    readonly innerProps: import("element-plus/es/utils").EpPropFinalized<(new (...args: any[]) => Record<string, unknown>) | (() => Record<string, unknown>) | ((new (...args: any[]) => Record<string, unknown>) | (() => Record<string, unknown>))[], unknown, unknown, () => {}, boolean>;
     readonly style: {
         readonly type: import("vue").PropType<import("element-plus/es/utils").EpPropMergeType<(new (...args: any[]) => string | import("vue").CSSProperties | import("vue").StyleValue[]) | (() => import("vue").StyleValue) | ((new (...args: any[]) => string | import("vue").CSSProperties | import("vue").StyleValue[]) | (() => import("vue").StyleValue))[], unknown, unknown>>;
         readonly required: false;
@@ -96,6 +97,7 @@ declare const FixedSizeGrid: import("vue").DefineComponent<{
         __epPropKey: true;
     };
     readonly innerElement: import("element-plus/es/utils").EpPropFinalized<readonly [StringConstructor, ObjectConstructor], unknown, unknown, "div", boolean>;
+    readonly innerProps: import("element-plus/es/utils").EpPropFinalized<(new (...args: any[]) => Record<string, unknown>) | (() => Record<string, unknown>) | ((new (...args: any[]) => Record<string, unknown>) | (() => Record<string, unknown>))[], unknown, unknown, () => {}, boolean>;
     readonly style: {
         readonly type: import("vue").PropType<import("element-plus/es/utils").EpPropMergeType<(new (...args: any[]) => string | import("vue").CSSProperties | import("vue").StyleValue[]) | (() => import("vue").StyleValue) | ((new (...args: any[]) => string | import("vue").CSSProperties | import("vue").StyleValue[]) | (() => import("vue").StyleValue))[], unknown, unknown>>;
         readonly required: false;
@@ -177,6 +179,7 @@ declare const FixedSizeGrid: import("vue").DefineComponent<{
     readonly className: string;
     readonly containerElement: import("element-plus/es/utils").EpPropMergeType<(new (...args: any[]) => string | Element) | (() => string | Element) | ((new (...args: any[]) => string | Element) | (() => string | Element))[], unknown, unknown>;
     readonly innerElement: import("element-plus/es/utils").EpPropMergeType<readonly [StringConstructor, ObjectConstructor], unknown, unknown>;
+    readonly innerProps: Record<string, unknown>;
     readonly perfMode: import("element-plus/es/utils").EpPropMergeType<BooleanConstructor, unknown, unknown>;
     readonly useIsScrolling: boolean;
     readonly scrollbarAlwaysOn: boolean;

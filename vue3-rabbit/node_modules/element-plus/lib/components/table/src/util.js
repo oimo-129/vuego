@@ -99,19 +99,19 @@ const getColumnByCell = function(table, cell, namespace) {
   }
   return null;
 };
-const getRowIdentity = (row, rowKey, isReturnRawValue = false) => {
+const getRowIdentity = (row, rowKey) => {
   if (!row)
     throw new Error("Row is required when get row identity");
   if (shared.isString(rowKey)) {
     if (!rowKey.includes(".")) {
-      return isReturnRawValue ? row[rowKey] : `${row[rowKey]}`;
+      return `${row[rowKey]}`;
     }
     const key = rowKey.split(".");
     let current = row;
     for (const element of key) {
       current = current[element];
     }
-    return isReturnRawValue ? current : `${current}`;
+    return `${current}`;
   } else if (shared.isFunction(rowKey)) {
     return rowKey.call(null, row);
   }
@@ -333,8 +333,15 @@ function createTablePopper(props, popperContent, row, column, trigger, table) {
   vm.component.exposed.onOpen();
   const scrollContainer = parentNode == null ? void 0 : parentNode.querySelector(`.${ns}-scrollbar__wrap`);
   exports.removePopper = () => {
+    var _a2, _b;
+    if ((_b = (_a2 = vm.component) == null ? void 0 : _a2.exposed) == null ? void 0 : _b.onClose) {
+      vm.component.exposed.onClose();
+    }
     vue.render(null, container);
-    scrollContainer == null ? void 0 : scrollContainer.removeEventListener("scroll", exports.removePopper);
+    const currentRemovePopper = exports.removePopper;
+    scrollContainer == null ? void 0 : scrollContainer.removeEventListener("scroll", currentRemovePopper);
+    currentRemovePopper.trigger = void 0;
+    currentRemovePopper.vm = void 0;
     exports.removePopper = null;
   };
   exports.removePopper.trigger = trigger != null ? trigger : void 0;

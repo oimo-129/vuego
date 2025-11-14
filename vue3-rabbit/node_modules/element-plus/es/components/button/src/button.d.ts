@@ -20,7 +20,7 @@ export declare const buttonProps: {
     readonly loading: BooleanConstructor;
     readonly loadingIcon: import("element-plus/es/utils").EpPropFinalized<(new (...args: any[]) => (string | Component) & {}) | (() => string | Component) | ((new (...args: any[]) => (string | Component) & {}) | (() => string | Component))[], unknown, unknown, () => any, boolean>;
     readonly plain: import("element-plus/es/utils").EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
-    readonly text: BooleanConstructor;
+    readonly text: import("element-plus/es/utils").EpPropFinalized<BooleanConstructor, unknown, unknown, undefined, boolean>;
     readonly link: BooleanConstructor;
     readonly bg: BooleanConstructor;
     readonly autofocus: BooleanConstructor;
@@ -42,6 +42,7 @@ export type ButtonNativeType = ButtonProps['nativeType'];
 export interface ButtonConfigContext {
     type?: string;
     plain?: boolean;
+    text?: boolean;
     round?: boolean;
     autoInsertSpace?: boolean;
 }

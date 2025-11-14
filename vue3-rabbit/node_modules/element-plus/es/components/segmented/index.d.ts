@@ -151,7 +151,7 @@ export declare const ElSegmented: import("element-plus/es/utils").SFCWithInstall
 }> & import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps & (new () => {
     $slots: {
         default?(_: {
-            item: import("./src/types.js").Option;
+            item: any;
         }): any;
     };
 })> & Record<string, any>;

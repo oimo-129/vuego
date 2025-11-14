@@ -3,6 +3,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 var vue = require('vue');
+var types = require('./types.js');
 var index = require('../../../hooks/use-namespace/index.js');
 var shared = require('@vue/shared');
 
@@ -17,13 +18,14 @@ var NodeContent = vue.defineComponent({
     node: {
       type: Object,
       required: true
-    },
-    renderLabelFn: Function
+    }
   },
   setup(props) {
     const ns = index.useNamespace("cascader-node");
     const {
-      renderLabelFn,
+      renderLabelFn
+    } = vue.inject(types.CASCADER_PANEL_INJECTION_KEY);
+    const {
       node
     } = props;
     const {

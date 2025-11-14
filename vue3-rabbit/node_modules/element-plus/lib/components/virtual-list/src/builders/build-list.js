@@ -331,10 +331,10 @@ const createList = ({
         }
       }
       const InnerNode = [
-        vue.h(Inner, {
+        vue.h(Inner, vue.mergeProps(ctx.innerProps, {
           style: innerStyle,
           ref: "innerRef"
-        }, !shared.isString(Inner) ? {
+        }), !shared.isString(Inner) ? {
           default: () => children
         } : children)
       ];

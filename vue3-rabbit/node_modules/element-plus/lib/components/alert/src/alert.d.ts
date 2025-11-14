@@ -1,7 +1,7 @@
 import type { ExtractPropTypes, __ExtractPublicPropTypes } from 'vue';
 export declare const alertEffects: readonly ["light", "dark"];
 export declare const alertProps: {
-    readonly showAfter: import("element-plus/es/utils").EpPropFinalized<NumberConstructor, unknown, unknown, 0, boolean>;
+    readonly showAfter: NumberConstructor;
     readonly hideAfter: import("element-plus/es/utils").EpPropFinalized<NumberConstructor, unknown, unknown, 200, boolean>;
     readonly autoClose: import("element-plus/es/utils").EpPropFinalized<NumberConstructor, unknown, unknown, 0, boolean>;
     readonly title: import("element-plus/es/utils").EpPropFinalized<StringConstructor, unknown, unknown, "", boolean>;

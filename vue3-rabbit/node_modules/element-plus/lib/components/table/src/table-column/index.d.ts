@@ -115,10 +115,10 @@ declare const _default: import("vue").DefineComponent<{
     width: string | number;
     minWidth: string | number;
     type: string;
+    resizable: boolean;
     showOverflowTooltip: boolean | Partial<Pick<import("element-plus").ElTooltipProps, "offset" | "transition" | "placement" | "effect" | "showAfter" | "hideAfter" | "popperOptions" | "enterable" | "popperClass" | "appendTo" | "showArrow">> | undefined;
     sortOrders: (import("../table/defaults").TableSortOrder | null)[];
     sortable: string | boolean;
-    resizable: boolean;
     reserveSelection: boolean;
     filterMultiple: boolean;
 }>;

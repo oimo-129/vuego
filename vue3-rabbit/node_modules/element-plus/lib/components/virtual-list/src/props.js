@@ -57,6 +57,10 @@ const virtualizedProps = runtime.buildProps({
     type: [String, Object],
     default: "div"
   },
+  innerProps: {
+    type: runtime.definePropType(Object),
+    default: () => ({})
+  },
   style: {
     type: runtime.definePropType([Object, String, Array])
   },

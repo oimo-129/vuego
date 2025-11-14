@@ -9,7 +9,7 @@ var event = require('../../../constants/event.js');
 
 const CommonProps = runtime.buildProps({
   modelValue: {
-    type: runtime.definePropType([Number, String, Array])
+    type: runtime.definePropType([Number, String, Array, Object])
   },
   options: {
     type: runtime.definePropType(Array),
@@ -32,7 +32,10 @@ const DefaultProps = {
   children: "children",
   leaf: "leaf",
   disabled: "disabled",
-  hoverThreshold: 500
+  hoverThreshold: 500,
+  checkOnClickNode: false,
+  checkOnClickLeaf: true,
+  showPrefix: true
 };
 const cascaderPanelProps = runtime.buildProps({
   ...CommonProps,

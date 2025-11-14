@@ -7,39 +7,6 @@ const { bannerList } = useBanner()
 import { useCategory } from './composables/useCategory'
 const { categoryData } = useCategory()
 
-// 调试：查看 categoryData 以及生成的子分类链接
-// 可选：简单调试分类子数据
-// import { watch } from 'vue'
-// watch(categoryData, (val) => console.log('children count:', val.children && val.children.length))
-
-
-
-// import { getTopCategoryAPI } from "@/apis/category";
-// import { useRoute,onBeforeRouteUpdate} from 'vue-router'
-// import { ref, onMounted } from "vue"
-// //验证组件可以复用的第二种，进行监听
-// //这是获得它的路由？
-
-
-// const route = useRoute()
-
-// const getCategoryList = async ( id= route.params.id) => {
-
-// //获得顶部导航栏参数
-//   const res = await getTopCategoryAPI(id)
-//   categoryData.value = res.result
-// }
-
-// //路由变化
-// onBeforeRouteUpdate((to) => {
-  
-//   console("路由变化了")
-//   getCategoryList(to.params.id)
-//   //console.log(to, from)
-//   //
-
-//   next()
-// })
 
 
 </script>

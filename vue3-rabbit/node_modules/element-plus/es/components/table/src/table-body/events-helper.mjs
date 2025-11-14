@@ -1,6 +1,6 @@
 import { inject, ref, h } from 'vue';
 import { debounce } from 'lodash-unified';
-import { getCell, getColumnByCell, createTablePopper, removePopper } from '../util.mjs';
+import { getCell, getColumnByCell, removePopper, createTablePopper } from '../util.mjs';
 import { TABLE_INJECTION_KEY } from '../tokens.mjs';
 import { hasClass, addClass, removeClass } from '../../../../utils/dom/style.mjs';
 
@@ -71,7 +71,7 @@ function useEvents(props) {
     }
   };
   const handleCellMouseEnter = (event, row, tooltipOptions) => {
-    var _a, _b, _c, _d, _e, _f;
+    var _a, _b, _c, _d, _e, _f, _g, _h;
     if (!parent)
       return;
     const table = parent;
@@ -96,6 +96,9 @@ function useEvents(props) {
       table == null ? void 0 : table.emit("cell-mouse-enter", hoverState.row, hoverState.column, hoverState.cell, event);
     }
     if (!tooltipOptions) {
+      if (((_d = removePopper) == null ? void 0 : _d.trigger) === cell) {
+        (_e = removePopper) == null ? void 0 : _e();
+      }
       return;
     }
     const cellChild = event.target.querySelector(".cell");
@@ -111,9 +114,9 @@ function useEvents(props) {
     const horizontalPadding = left + right;
     const verticalPadding = top + bottom;
     if (isGreaterThan(rangeWidth + horizontalPadding, cellChildWidth) || isGreaterThan(rangeHeight + verticalPadding, cellChildHeight) || isGreaterThan(cellChild.scrollWidth, cellChildWidth)) {
-      createTablePopper(tooltipOptions, (_d = (cell == null ? void 0 : cell.innerText) || (cell == null ? void 0 : cell.textContent)) != null ? _d : "", row, column, cell, table);
-    } else if (((_e = removePopper) == null ? void 0 : _e.trigger) === cell) {
-      (_f = removePopper) == null ? void 0 : _f();
+      createTablePopper(tooltipOptions, (_f = (cell == null ? void 0 : cell.innerText) || (cell == null ? void 0 : cell.textContent)) != null ? _f : "", row, column, cell, table);
+    } else if (((_g = removePopper) == null ? void 0 : _g.trigger) === cell) {
+      (_h = removePopper) == null ? void 0 : _h();
     }
   };
   const handleCellMouseLeave = (event) => {

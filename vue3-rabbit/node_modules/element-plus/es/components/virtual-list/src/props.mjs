@@ -53,6 +53,10 @@ const virtualizedProps = buildProps({
     type: [String, Object],
     default: "div"
   },
+  innerProps: {
+    type: definePropType(Object),
+    default: () => ({})
+  },
   style: {
     type: definePropType([Object, String, Array])
   },

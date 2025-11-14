@@ -1,4 +1,4 @@
-import { defineComponent, getCurrentInstance, computed, inject, ref, reactive, watch, provide, onMounted, onBeforeUnmount, h, Fragment, withDirectives, vShow } from 'vue';
+import { defineComponent, getCurrentInstance, computed, inject, ref, reactive, watch, provide, onMounted, onBeforeUnmount, h, Fragment, withDirectives, vShow, nextTick } from 'vue';
 import { useTimeoutFn } from '@vueuse/core';
 import { ElCollapseTransition } from '../../collapse-transition/index.mjs';
 import { ElTooltip } from '../../tooltip/index.mjs';
@@ -7,12 +7,13 @@ import { ElIcon } from '../../icon/index.mjs';
 import useMenu from './use-menu.mjs';
 import { useMenuCssVar } from './use-menu-css-var.mjs';
 import { MENU_INJECTION_KEY, SUB_MENU_INJECTION_KEY } from './tokens.mjs';
-import { buildProps } from '../../../utils/vue/props/runtime.mjs';
+import { buildProps, definePropType } from '../../../utils/vue/props/runtime.mjs';
 import { iconPropType } from '../../../utils/vue/icon.mjs';
 import { useNamespace } from '../../../hooks/use-namespace/index.mjs';
 import { throwError } from '../../../utils/error.mjs';
 import { isUndefined } from '../../../utils/types.mjs';
 import { isString } from '@vue/shared';
+import { focusElement } from '../../../utils/dom/aria.mjs';
 
 const subMenuProps = buildProps({
   index: {
@@ -22,6 +23,9 @@ const subMenuProps = buildProps({
   showTimeout: Number,
   hideTimeout: Number,
   popperClass: String,
+  popperStyle: {
+    type: definePropType([String, Object])
+  },
   disabled: Boolean,
   teleported: {
     type: Boolean,
@@ -62,11 +66,22 @@ var SubMenu = defineComponent({
     const mouseInChild = ref(false);
     const verticalTitleRef = ref();
     const vPopper = ref();
+    const isFirstLevel = computed(() => subMenu.level === 0);
     const currentPlacement = computed(() => mode.value === "horizontal" && isFirstLevel.value ? "bottom-start" : "right-start");
     const subMenuTitleIcon = computed(() => {
-      return mode.value === "horizontal" && isFirstLevel.value || mode.value === "vertical" && !rootMenu.props.collapse ? props.expandCloseIcon && props.expandOpenIcon ? opened.value ? props.expandOpenIcon : props.expandCloseIcon : ArrowDown : props.collapseCloseIcon && props.collapseOpenIcon ? opened.value ? props.collapseOpenIcon : props.collapseCloseIcon : ArrowRight;
+      const isExpandedMode = mode.value === "horizontal" && isFirstLevel.value || mode.value === "vertical" && !rootMenu.props.collapse;
+      if (isExpandedMode) {
+        if (props.expandCloseIcon && props.expandOpenIcon) {
+          return opened.value ? props.expandOpenIcon : props.expandCloseIcon;
+        }
+        return ArrowDown;
+      } else {
+        if (props.collapseCloseIcon && props.collapseOpenIcon) {
+          return opened.value ? props.collapseOpenIcon : props.collapseCloseIcon;
+        }
+        return ArrowRight;
+      }
     });
-    const isFirstLevel = computed(() => subMenu.level === 0);
     const appendToBody = computed(() => {
       const value = props.teleported;
       return isUndefined(value) ? isFirstLevel.value : value;
@@ -106,6 +121,10 @@ var SubMenu = defineComponent({
     const subMenuPopperClass = computed(() => {
       var _a;
       return (_a = props.popperClass) != null ? _a : rootMenu.props.popperClass;
+    });
+    const subMenuPopperStyle = computed(() => {
+      var _a;
+      return (_a = props.popperStyle) != null ? _a : rootMenu.props.popperStyle;
     });
     const subMenuShowTimeout = computed(() => {
       var _a;
@@ -148,6 +167,11 @@ var SubMenu = defineComponent({
       }, showTimeout));
       if (appendToBody.value) {
         (_a = parentMenu.value.vnode.el) == null ? void 0 : _a.dispatchEvent(new MouseEvent("mouseenter"));
+      }
+      if (event.type === "mouseenter" && event.target) {
+        nextTick(() => {
+          focusElement(event.target, { preventScroll: true });
+        });
       }
     };
     const handleMouseleave = (deepDispatch = false) => {
@@ -212,6 +236,7 @@ var SubMenu = defineComponent({
         showArrow: false,
         persistent: persistent.value,
         popperClass: subMenuPopperClass.value,
+        popperStyle: subMenuPopperStyle.value,
         placement: currentPlacement.value,
         teleported: appendToBody.value,
         fallbackPlacements: fallbackPlacements.value,

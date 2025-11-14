@@ -138,7 +138,7 @@ declare const __VLS_component: import("vue").DefineComponent<{
     /** @description select the file manually */
     handleStart: (rawFile: import("./upload").UploadRawFile) => void;
     /** @description remove the file manually */
-    handleRemove: (file: import("./upload").UploadFile | import("./upload").UploadRawFile, rawFile?: import("./upload").UploadRawFile) => void;
+    handleRemove: (file: import("./upload").UploadFile | import("./upload").UploadRawFile) => void;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, Record<string, any>, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     readonly beforeUpload: import("element-plus/es/utils").EpPropFinalized<(new (...args: any[]) => (rawFile: import("./upload").UploadRawFile) => import("element-plus/es/utils").Awaitable<void | undefined | null | boolean | File | Blob>) | (() => (rawFile: import("./upload").UploadRawFile) => import("element-plus/es/utils").Awaitable<void | undefined | null | boolean | File | Blob>) | {
         (): (rawFile: import("./upload").UploadRawFile) => import("element-plus/es/utils").Awaitable<void | undefined | null | boolean | File | Blob>;

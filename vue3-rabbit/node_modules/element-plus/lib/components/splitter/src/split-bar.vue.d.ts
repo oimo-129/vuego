@@ -16,12 +16,9 @@ declare const __VLS_component: import("vue").DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
-    startCollapsible: {
-        type: BooleanConstructor;
-    };
-    endCollapsible: {
-        type: BooleanConstructor;
-    };
+    lazy: BooleanConstructor;
+    startCollapsible: BooleanConstructor;
+    endCollapsible: BooleanConstructor;
 }, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
     collapse: (...args: any[]) => void;
     moveStart: (...args: any[]) => void;
@@ -41,12 +38,9 @@ declare const __VLS_component: import("vue").DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
-    startCollapsible: {
-        type: BooleanConstructor;
-    };
-    endCollapsible: {
-        type: BooleanConstructor;
-    };
+    lazy: BooleanConstructor;
+    startCollapsible: BooleanConstructor;
+    endCollapsible: BooleanConstructor;
 }>> & {
     onCollapse?: ((...args: any[]) => any) | undefined;
     onMoveStart?: ((...args: any[]) => any) | undefined;
@@ -54,6 +48,7 @@ declare const __VLS_component: import("vue").DefineComponent<{
     onMoveEnd?: ((...args: any[]) => any) | undefined;
 }, {
     layout: string;
+    lazy: boolean;
     resizable: boolean;
     startCollapsible: boolean;
     endCollapsible: boolean;

@@ -12,6 +12,7 @@ export declare const virtualizedProps: {
         __epPropKey: true;
     };
     readonly innerElement: import("element-plus/es/utils").EpPropFinalized<readonly [StringConstructor, ObjectConstructor], unknown, unknown, "div", boolean>;
+    readonly innerProps: import("element-plus/es/utils").EpPropFinalized<(new (...args: any[]) => Record<string, unknown>) | (() => Record<string, unknown>) | ((new (...args: any[]) => Record<string, unknown>) | (() => Record<string, unknown>))[], unknown, unknown, () => {}, boolean>;
     readonly style: {
         readonly type: import("vue").PropType<import("element-plus/es/utils").EpPropMergeType<(new (...args: any[]) => string | import("vue").CSSProperties | StyleValue[]) | (() => StyleValue) | ((new (...args: any[]) => string | import("vue").CSSProperties | StyleValue[]) | (() => StyleValue))[], unknown, unknown>>;
         readonly required: false;
@@ -40,6 +41,7 @@ export declare const virtualizedListProps: {
         __epPropKey: true;
     };
     readonly innerElement: import("element-plus/es/utils").EpPropFinalized<readonly [StringConstructor, ObjectConstructor], unknown, unknown, "div", boolean>;
+    readonly innerProps: import("element-plus/es/utils").EpPropFinalized<(new (...args: any[]) => Record<string, unknown>) | (() => Record<string, unknown>) | ((new (...args: any[]) => Record<string, unknown>) | (() => Record<string, unknown>))[], unknown, unknown, () => {}, boolean>;
     readonly style: {
         readonly type: import("vue").PropType<import("element-plus/es/utils").EpPropMergeType<(new (...args: any[]) => string | import("vue").CSSProperties | StyleValue[]) | (() => StyleValue) | ((new (...args: any[]) => string | import("vue").CSSProperties | StyleValue[]) | (() => StyleValue))[], unknown, unknown>>;
         readonly required: false;
@@ -89,6 +91,7 @@ export declare const virtualizedGridProps: {
         __epPropKey: true;
     };
     readonly innerElement: import("element-plus/es/utils").EpPropFinalized<readonly [StringConstructor, ObjectConstructor], unknown, unknown, "div", boolean>;
+    readonly innerProps: import("element-plus/es/utils").EpPropFinalized<(new (...args: any[]) => Record<string, unknown>) | (() => Record<string, unknown>) | ((new (...args: any[]) => Record<string, unknown>) | (() => Record<string, unknown>))[], unknown, unknown, () => {}, boolean>;
     readonly style: {
         readonly type: import("vue").PropType<import("element-plus/es/utils").EpPropMergeType<(new (...args: any[]) => string | import("vue").CSSProperties | StyleValue[]) | (() => StyleValue) | ((new (...args: any[]) => string | import("vue").CSSProperties | StyleValue[]) | (() => StyleValue))[], unknown, unknown>>;
         readonly required: false;

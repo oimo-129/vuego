@@ -2,6 +2,7 @@ declare function __VLS_template(): {
     default?(_: {}): any;
 };
 declare const __VLS_component: import("vue").DefineComponent<{
+    readonly loop: BooleanConstructor;
     readonly ariaLabel: StringConstructor;
     readonly id: StringConstructor;
     readonly style: {
@@ -267,12 +268,13 @@ declare const __VLS_component: import("vue").DefineComponent<{
      */
     contentStyle: import("vue").ComputedRef<import("vue").StyleValue[]>;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
+    focus: () => void;
     blur: () => void;
     close: () => void;
-    focus: () => void;
     mouseenter: (evt: MouseEvent) => void;
     mouseleave: (evt: MouseEvent) => void;
 }, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+    readonly loop: BooleanConstructor;
     readonly ariaLabel: StringConstructor;
     readonly id: StringConstructor;
     readonly style: {
@@ -533,6 +535,7 @@ declare const __VLS_component: import("vue").DefineComponent<{
     readonly strategy: import("element-plus/es/utils").EpPropMergeType<StringConstructor, "fixed" | "absolute", unknown>;
     readonly effect: import("element-plus/es/utils").EpPropMergeType<(new (...args: any[]) => string) | (() => import("element-plus").PopperEffect) | ((new (...args: any[]) => string) | (() => import("element-plus").PopperEffect))[], unknown, unknown>;
     readonly virtualTriggering: boolean;
+    readonly loop: boolean;
     readonly arrowOffset: number;
     readonly boundariesPadding: number;
     readonly fallbackPlacements: import("element-plus").Placement[];

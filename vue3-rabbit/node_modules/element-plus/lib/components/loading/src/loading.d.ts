@@ -1,7 +1,7 @@
-import type { AppContext } from 'vue';
+import type { AppContext, VNode } from 'vue';
 import type { LoadingOptionsResolved } from './types';
 export declare function createLoadingComponent(options: LoadingOptionsResolved, appContext: AppContext | null): {
-    setText: (text: string) => void;
+    setText: (text: string | VNode | VNode[]) => void;
     removeElLoadingChild: () => void;
     close: () => void;
     handleAfterLeave: () => void;
@@ -15,7 +15,11 @@ export declare function createLoadingComponent(options: LoadingOptionsResolved, 
     svg: import("vue").Ref<string>;
     svgViewBox: import("vue").Ref<string>;
     spinner: import("vue").Ref<string | boolean>;
-    text: import("vue").Ref<string>;
+    text: import("vue").Ref<string | VNode<import("vue").RendererNode, import("vue").RendererElement, {
+        [key: string]: any;
+    }> | VNode<import("vue").RendererNode, import("vue").RendererElement, {
+        [key: string]: any;
+    }>[]>;
     fullscreen: import("vue").Ref<boolean>;
     lock: import("vue").Ref<boolean>;
     customClass: import("vue").Ref<string>;

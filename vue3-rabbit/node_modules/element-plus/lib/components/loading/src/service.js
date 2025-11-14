@@ -9,7 +9,7 @@ var shared = require('@vue/shared');
 var style = require('../../../utils/dom/style.js');
 
 let fullscreenInstance = void 0;
-const Loading = function(options = {}) {
+const Loading = function(options = {}, context) {
   if (!core.isClient)
     return void 0;
   const resolved = resolveOptions(options);
@@ -24,7 +24,7 @@ const Loading = function(options = {}) {
       if (resolved.fullscreen)
         fullscreenInstance = void 0;
     }
-  }, Loading._context);
+  }, context != null ? context : Loading._context);
   addStyle(resolved, resolved.parent, instance);
   addClassList(resolved, resolved.parent, instance);
   resolved.parent.vLoadingAddClassList = () => addClassList(resolved, resolved.parent, instance);

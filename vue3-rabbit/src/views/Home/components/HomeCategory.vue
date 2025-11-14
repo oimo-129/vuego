@@ -6,6 +6,8 @@ import { useCategoryStore } from '@/stores/category'
 const categoryStore = useCategoryStore()
 
 
+
+
 </script>
 
 <template>
@@ -15,6 +17,8 @@ const categoryStore = useCategoryStore()
         <RouterLink to="/">{{ item.name }}</RouterLink>
         <!-- 二级 -->
         <RouterLink v-for="i in item.children.slice(0, 2)" :key="i" to="/">{{ i.name }}</RouterLink>
+
+        <!-- 暂时还不知道这个干什么的 -->
         <!-- 弹层layer位置 -->
         <div class="layer">
           <h4>分类推荐 <small>根据您的购买或浏览记录推荐</small></h4>

@@ -1,9 +1,10 @@
-import type { Ref, VNode } from 'vue';
+import type { ComputedRef, Ref, VNode } from 'vue';
 import type { StepsProps } from './steps';
 export interface StepItemState {
     uid: number;
     getVnode: () => VNode;
-    currentStatus: string;
+    currentStatus: ComputedRef<string>;
+    internalStatus: Ref<string>;
     setIndex: (val: number) => void;
     calcProgress: (status: string) => void;
 }
