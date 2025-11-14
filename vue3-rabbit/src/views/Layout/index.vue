@@ -11,12 +11,12 @@ import {onMounted } from 'vue';
 const categoryStore = useCategoryStore()
 
 onMounted(async () => {
-  console.log('Layout 组件挂载，开始获取分类数据')
+  // console.log('Layout 组件挂载，开始获取分类数据')
   try {
     await categoryStore.getCategory()
-    console.log('Layout 获取分类数据完成，当前 categoryList:', categoryStore.categoryList)
+    // console.log('Layout 获取分类数据完成，当前 categoryList:', categoryStore.categoryList)
   } catch (error) {
-    console.error('Layout 获取分类数据失败:', error)
+    // console.error('Layout 获取分类数据失败:', error)
   }
 })
 

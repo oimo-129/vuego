@@ -7,6 +7,11 @@ const { bannerList } = useBanner()
 import { useCategory } from './composables/useCategory'
 const { categoryData } = useCategory()
 
+// 调试：查看 categoryData 以及生成的子分类链接
+// 可选：简单调试分类子数据
+// import { watch } from 'vue'
+// watch(categoryData, (val) => console.log('children count:', val.children && val.children.length))
+
 
 
 // import { getTopCategoryAPI } from "@/apis/category";
@@ -65,7 +70,8 @@ const { categoryData } = useCategory()
   <h3>全部分类</h3>
   <ul>
     <li v-for="i in categoryData.children" :key="i.id">
-      <RouterLink to="`/category/sub/${i.id}`">
+    <!-- 这里是二级路由的体现 -->
+      <RouterLink :to="`/category/sub/${i.id}`">
         <img :src="i.picture" />
         <p>{{ i.name }}</p>
       </RouterLink>
@@ -89,6 +95,7 @@ const { categoryData } = useCategory()
 </div>
   </div>
 
+    <!-- 同级路由模式下这里不需要 RouterView -->
  
 </template>
 
