@@ -7,20 +7,47 @@ import request from '@/utils/http.js'
  */
 
 export const getTopCategoryAPI = (id) => {
-    return request({
-        url: "/category",
-        params: {
-            id
-        },
-    })
-}
+        return request({
+            url: "/category",
+            params: {
+                id
+            },
+        })
+    }
+    //二级路由的配置
 
-//完成面包屑导航，这里应该是二级路由
+/**
+ * @description: 获取二级分类列表数据
+ * @param {*} id 二级分类id 
+ * @return {*}
+ */
+
 export const getCategoryFilterAPI = (id) => {
     return request({
-        url: "/category/sub/filter",
+        url: '/category/sub/filter',
         params: {
             id
         }
+    })
+}
+
+
+//分类基础功能，注意这里用的是POST请求，因为参数是json格式??
+
+/**
+ * @description: 获取导航数据
+ * @data { 
+     categoryId: 1005000 ,
+     page: 1,
+     pageSize: 20,
+     sortField: 'publishTime' | 'orderNum' | 'evaluateNum'
+   } 
+ * @return {*}
+ */
+export const getSubCategoryAPI = (data) => {
+    return request({
+        url: '/category/goods/temporary',
+        method: 'POST',
+        data
     })
 }

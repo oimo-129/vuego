@@ -28,17 +28,11 @@ const router = createRouter({
             name: 'login',
             component: Login,
         }
-    ]
+    ],
+    //添加路由行为配置项，vue-router提供的
+    scrollBehavior() {
+        return { top: 0 };
+    }
 });
-
-// 路由调试：输出匹配记录与最终组件
-router.beforeEach((to, from, next) => {
-    const last = to.matched[to.matched.length - 1]
-    console.log('[Router beforeEach] to:', to.fullPath, 'matched count:', to.matched.length, 'last component name:', last && last.components && last.components.default && last.components.default.name)
-    next()
-})
-router.afterEach((to) => {
-    console.log('[Router afterEach] now at:', to.fullPath)
-})
 
 export default router;

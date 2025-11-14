@@ -1,26 +1,59 @@
 <script setup>
-// 设定组件名称方便路由调试
-defineOptions({ name: 'SubCategoryView' })
-// 面包屑导航
 import { ref, onMounted } from "vue";
-import { getCategoryFilterAPI } from "@/apis/category";
+//拿的函数不同
+import { getCategoryFilterAPI, getSubCategoryAPI } from "@/apis/category";
 import { useRoute } from "vue-router";
-
+//商品组件，待展开
+import GoodsItem from "../Home/components/GoodsItem.vue";
+//基础列表数据
 const route = useRoute();
-const filterData = ref({});
-//拿后端给的数据
-const getFileData = async () => {
-  console.log("SubCategory 组件已挂载，当前路由参数 id:", route.params.id);
-  const res = await getCategoryFilterAPI(route.params.id);
-  filterData.value = res.data;
-  console.log("SubCategory 数据:", res.data);
-};
+const goodList = ref([])
+const reqData = ref({
+  categoryId: route.params.id,
+  page: 1,
+  pageSize: 20,
+  sortField: "publishTime",
+})
 
-//生命周期挂载
+const getGoodList = async () => {
+  const res = await getSubCategoryAPI(reqData.value);
+  console.log(res);
+  goodList.value = res.result.items;
+}
+
+
+// 获取面包屑导航数据
+const filterData = ref({});
+const getFilterData = async () => {
+  const res = await getCategoryFilterAPI(route.params.id);
+  filterData.value = res.result;
+};
 onMounted(() => {
-  console.log("SubCategory onMounted 执行");
-  getFileData();
+  getFilterData();
+  getGoodList();
 });
+
+//添加列表筛选
+
+const tabChange = () => {
+  console.log('tab切换了', reqData.value.sortField);
+  reqData.value.page = 1;
+  getGoodList();
+}
+
+
+//添加无限加载
+const disabled = ref(false);
+const load = async () => {
+  reqData.value.page++
+  const res = await getSubCategoryAPI(reqData.value)
+  goodList.value = [...goodList.value, ...res.result.items]
+  //终止条件
+  if (res.result.items.length === 0) {
+    disabled.value = true
+  }
+}
+
 
 </script>
 
@@ -30,22 +63,24 @@ onMounted(() => {
     <div class="bread-container">
       <el-breadcrumb separator=">">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <!-- 这里好像没有用二级路由 -->
-        <el-breadcrumb-item :to="{ path: `/category/${filterData.parentId}` }">
-        {{ filterData.parentName }}
-         </el-breadcrumb-item>
-         <!-- 不对，这里拿的是二级 -->
+        <el-breadcrumb-item :to="{ path: `/category/${filterData.parentId}` }">{{ filterData.parentName }}
+        </el-breadcrumb-item>
         <el-breadcrumb-item>{{ filterData.name }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
+
+
     <div class="sub-container">
-      <el-tabs>
-        <el-tab-pane label="最新商品12341" name="publishTime"></el-tab-pane>
+      <el-tabs v-model="reqData.sortField" @tab-change="tabChange">
+        <el-tab-pane label="最新商品" name="publishTime"></el-tab-pane>
         <el-tab-pane label="最高人气" name="orderNum"></el-tab-pane>
         <el-tab-pane label="评论最多" name="evaluateNum"></el-tab-pane>
       </el-tabs>
-      <div class="body">
+
+      <!-- 基础列表的显示 -->
+      <div class="body" v-infinite-scroll="load" :infinite-scroll-disabled="disabled">
         <!-- 商品列表-->
+        <GoodsItem v-for="goods in goodList" :goods="goods" :key="goods.id" />
       </div>
     </div>
   </div>

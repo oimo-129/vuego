@@ -70,7 +70,6 @@ const { categoryData } = useCategory()
   <h3>全部分类</h3>
   <ul>
     <li v-for="i in categoryData.children" :key="i.id">
-    <!-- 这里是二级路由的体现 -->
       <RouterLink :to="`/category/sub/${i.id}`">
         <img :src="i.picture" />
         <p>{{ i.name }}</p>
