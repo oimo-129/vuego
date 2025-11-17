@@ -3,6 +3,9 @@ import { getDetail } from '@/apis/detail'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 //组装的组件
+import ImageView from '@/components/ImageView.vue'
+
+
 import DetailHot from './components/DetailHot.vue'
 const goods = ref({})
 const route = useRoute()
@@ -37,8 +40,9 @@ onMounted(() => getGoods())
             <div class="media">
               <!-- 图片预览区 -->
 
+<!-- 在这里，图片下载 -->
 
-
+<ImageView />
 <!-- 统计专区，需要渲染 -->
 
               <!-- 统计数量 -->

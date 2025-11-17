@@ -68,3 +68,9 @@ import { Plus, Delete } from '@element-plus/icons-vue'
 
 props参数的使用
 详情页完成，然后整理，打磨再继续后面的
+
+
+
+scss的简单使用，自己总要写一份吧
+
+功能拆解

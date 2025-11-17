@@ -1,4 +1,20 @@
+
+<script lang="ts" setup>
+import {
+  Check,
+  Delete,
+  Edit,
+  Message,
+  Search,
+  Star,
+} from '@element-plus/icons-vue'
+
+import ImageView from '@/components/ImageView.vue';
+</script>
+
 <template>
+
+  <image-view/>
   <div class="button-example">
     <div class="button-row">
       <el-button>Default</el-button>
@@ -36,18 +52,9 @@
       <el-button type="danger" :icon="Delete" circle />
     </div>
   </div>
+
 </template>
 
-<script lang="ts" setup>
-import {
-  Check,
-  Delete,
-  Edit,
-  Message,
-  Search,
-  Star,
-} from '@element-plus/icons-vue'
-</script>
 
 <style scoped>
 .button-example {
