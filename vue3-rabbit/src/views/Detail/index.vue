@@ -4,9 +4,9 @@ import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 //组装的组件
 import ImageView from '@/components/ImageView.vue'
-
-
 import DetailHot from './components/DetailHot.vue'
+
+
 const goods = ref({})
 const route = useRoute()
 const getGoods = async () => {

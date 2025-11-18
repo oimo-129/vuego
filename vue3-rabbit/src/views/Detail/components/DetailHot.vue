@@ -2,6 +2,8 @@
 import { ref ,computed , onMounted } from 'vue'
 import { getHotGoodsAPI } from '@/apis/detail'
 import { useRoute } from 'vue-router'
+
+
 //设计props参数type
 
 const props = defineProps({
@@ -15,7 +17,12 @@ const TYPEMAP = {
   1: '24小时热榜',
   2: '周热榜',
 }
+
+
 const title = computed(() => TYPEMAP[props.hotType])
+
+
+
 const goodList = ref([])
 const route = useRoute()
 const getHotList = async () => {
@@ -34,6 +41,8 @@ onMounted(()=>getHotList())
 
 <template>
 <div class="goods-hot">
+
+<!-- computer的使用 -->
     <h3> {{ title }} </h3>
     <!-- 商品区块 -->
     <RouterLink :to="`/detail/${item.id}`" class="goods-item" v-for="item in goodList" :key="item.id">

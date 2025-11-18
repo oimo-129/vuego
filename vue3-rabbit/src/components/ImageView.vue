@@ -33,9 +33,18 @@ const left = ref(0)
 const top = ref(0)
 //但是这里没说left和top怎么控制啊
 // 横向
-
+const positionX = ref(0)
+const positionY = ref(0)
 //这里只执行一次，我也写在watch里面
-watch([elementX, elementY], () => {
+watch([elementX, elementY,isOutside], () => {
+
+
+  //鼠标在盒子里面，再进行放大镜逻辑的执行
+  if(isOutside.value){
+    //true的时候执行,在盒子外面
+    console.log('鼠标移出盒子了');
+    return 
+  }
  if (elementX.value > 100 && elementX.value < 300) {
     left.value = elementX.value - 100
   }
@@ -50,7 +59,9 @@ watch([elementX, elementY], () => {
 
   if (elementY.value > 300) { top.value = 200 }
   if (elementY.value < 100) { top.value = 0 }
-
+//整理大值和小值
+  positionX.value = -2 * left.value
+  positionY.value = -2 * top.value
 })
 
  
@@ -78,10 +89,11 @@ watch([elementX, elementY], () => {
     <div class="large" :style="[
       {
         backgroundImage: `url(${imageList[0]})`,
-        backgroundPositionX: `0px`,
-        backgroundPositionY: `0px`,
+        backgroundPositionX: `${positionX}px`,
+        backgroundPositionY: `${positionY}px`,
       },
-    ]" v-show="false"></div>
+    ]" v-show="!isOutside"></div>
+    <!-- 条件渲染 -->
   </div>
 </template>
 
