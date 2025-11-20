@@ -1,16 +1,26 @@
 // 图片预览组件
 //可以实现鼠标经过小图切换大图，鼠标经过大图显示放大镜效果
 //理解并作为自己的内容
-
+//全局注册组件，全局组件统一插件化
 <script setup>
+
+
+defineProps(
+  {
+    imageList:{
+      type:Array,
+      default:()=>[]
+    }
+  }
+)
 // 图片列表
-const imageList = [
-  "https://yanxuan-item.nosdn.127.net/d917c92e663c5ed0bb577c7ded73e4ec.png",
-  "https://yanxuan-item.nosdn.127.net/e801b9572f0b0c02a52952b01adab967.jpg",
-  "https://yanxuan-item.nosdn.127.net/b52c447ad472d51adbdde1a83f550ac2.jpg",
-  "https://yanxuan-item.nosdn.127.net/f93243224dc37674dfca5874fe089c60.jpg",
-  "https://yanxuan-item.nosdn.127.net/f881cfe7de9a576aaeea6ee0d1d24823.jpg"
-]
+// const imageList = [
+//   "https://yanxuan-item.nosdn.127.net/d917c92e663c5ed0bb577c7ded73e4ec.png",
+//   "https://yanxuan-item.nosdn.127.net/e801b9572f0b0c02a52952b01adab967.jpg",
+//   "https://yanxuan-item.nosdn.127.net/b52c447ad472d51adbdde1a83f550ac2.jpg",
+//   "https://yanxuan-item.nosdn.127.net/f93243224dc37674dfca5874fe089c60.jpg",
+//   "https://yanxuan-item.nosdn.127.net/f881cfe7de9a576aaeea6ee0d1d24823.jpg"
+// ]
 
 import { ref } from 'vue'
 
@@ -72,7 +82,7 @@ watch([elementX, elementY,isOutside], () => {
   <div class="goods-image">
     <!-- 左侧大图-->
     <div class="middle" ref="target">
-      <img :src="imageList[0]" alt="" />
+      <img :src="imageList[curIndex]" alt="" />
       <!-- 蒙层小滑块 -->
       <div class="layer" :style="{ left: `${left}px`, top: `${top}px` }" >
       </div>
@@ -88,7 +98,7 @@ watch([elementX, elementY,isOutside], () => {
     <!-- 放大镜大图 -->
     <div class="large" :style="[
       {
-        backgroundImage: `url(${imageList[0]})`,
+        backgroundImage: `url(${imageList[curIndex]})`,
         backgroundPositionX: `${positionX}px`,
         backgroundPositionY: `${positionY}px`,
       },

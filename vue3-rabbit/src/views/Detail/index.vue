@@ -3,7 +3,7 @@ import { getDetail } from '@/apis/detail'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 //组装的组件
-import ImageView from '@/components/ImageView.vue'
+// import ImageView from '@/components/ImageView.vue'
 import DetailHot from './components/DetailHot.vue'
 
 
@@ -14,6 +14,14 @@ const getGoods = async () => {
   goods.value = res.result
 }
 onMounted(() => getGoods())
+
+
+//sku函数的加载
+
+// sku规格被操作时,后续加深理解,sku组件
+const skuChange = (sku) => {
+  console.log(sku)
+}
 
 </script>
 
@@ -41,8 +49,9 @@ onMounted(() => getGoods())
               <!-- 图片预览区 -->
 
 <!-- 在这里，图片下载 -->
-
-<ImageView />
+<!-- 图片组件 -->
+<!-- 这里是后端图片的来源 -->
+<ImageView :image-list="goods.mainPictures"/>
 <!-- 统计专区，需要渲染 -->
 
               <!-- 统计数量 -->
@@ -64,8 +73,8 @@ onMounted(() => getGoods())
                 </li>
                 <li>
                   <p>品牌信息</p>
-                  <!-- 这边为啥后端是空值？？？ -->
-                  <p>{{ goods.brand }}后端没有？？？</p>
+       
+                  <p>{{ goods.brand }}</p>
                   <p><i class="iconfont icon-dynamic-filling"></i>品牌主页</p>
                 </li>
               </ul>
@@ -94,7 +103,7 @@ onMounted(() => getGoods())
                 </dl>
               </div>
               <!-- sku组件 -->
-
+              <XtxSku :goods="goods" @change="skuChange" />
               <!-- 数据组件 -->
 
               <!-- 按钮组件 -->
@@ -131,8 +140,6 @@ onMounted(() => getGoods())
 
 
                 <DetailHot :hot-type="1"/>
-
-                //真的出来了，props的案例属性测试？？？
                 
                 <DetailHot :hot-type="2"/>
             </div>

@@ -16,16 +16,17 @@ import { createPinia } from 'pinia'
 
 
 
-const pinia=createPinia()
-const app=createApp(App)
+const pinia = createPinia()
+const app = createApp(App)
 app.use(router)
 app.use(pinia)
 app.use(ElementPlus)
-//引入懒加载插件
+    //引入懒加载插件
 import { mylazyPlugin } from '@/directives'
 app.use(mylazyPlugin)
-
+    //引入我加载的全局组件插件
+import { myplugin } from '@/directives'
+app.use(myplugin)
 
 //挂载点的理解与配置
 app.mount('#app')
-
