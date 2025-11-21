@@ -8,6 +8,8 @@ vue项目开发前置整合
 Prop完成
 attr?
 emit？
+pinia,
+stores，状态管理
 ```
 
 双向绑定，数据和视图都可以流通，js<——>template
@@ -43,7 +45,6 @@ import { Plus, Delete } from '@element-plus/icons-vue'
 
 ## 技术栈说明
 
-- **Vue 3**：渐进式 JavaScript 框架
 - **Vite**：新一代前端构建工具，比 Webpack 更快
 - **Vue Router**：官方路由管理器
 - **Pinia**：Vue 3 官方推荐的状态管理库
@@ -59,6 +60,8 @@ import { Plus, Delete } from '@element-plus/icons-vue'
 前端初级工作：创建组件，封装接口，调用数据，渲染模板
 
 内容2，基础配置，然后外加js指南 模块部分
+
+这里有个登录的判断
 
 可选链，v-if控制渲染，重点关注  ，它的作用时机   <!-- 
 
