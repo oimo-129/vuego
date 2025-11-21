@@ -4,7 +4,7 @@
 import 'element-plus/dist/index.css'
 import ElementPlus from 'element-plus'
 //添加对axios的测试
-
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 //main.js
 import '@/styles/common.scss'
 import { createApp } from 'vue'
@@ -17,6 +17,9 @@ import { createPinia } from 'pinia'
 
 
 const pinia = createPinia()
+    //引入持久化插件
+
+pinia.use(piniaPluginPersistedstate)
 const app = createApp(App)
 app.use(router)
 app.use(pinia)

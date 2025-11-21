@@ -3,7 +3,12 @@
 import { ElMessage } from 'element-plus'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { loginAPI } from '@/apis/login'
+// import { loginAPI } from '@/apis/login'
+//引入集中状态管理
+import { useUserStore } from "@/stores/user"
+
+
+const userStore = useUserStore();
 //表单数据对象
 const formData = ref({
   account:'xiaotuxian001',
@@ -41,9 +46,12 @@ const doLogin = ()=>{
       console.log(valid)
       if(valid){
         //合法，调用登录逻辑
-        await loginAPI({
-          account,password
-        })
+        // await loginAPI({
+        //   account,password
+        // })
+        //集中状态管理登录
+        // const useStore = useUserStore()
+        await userStore.getUserInfo({ account, password })
         //弹窗提示用户
         ElMessage({
           type:'success',
