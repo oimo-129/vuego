@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(git add:*)",
-      "Bash(git commit -m \"$(cat <<''EOF''\n添加项目文档和 Claude Code 配置\n\n- 添加 .claude/instructions.md 中文响应配置\n- 添加 CLAUDE.md 项目架构说明文档\n- 添加 help.md Claude Code 使用指南\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
+      "Bash(git commit -m \"$(cat <<''EOF''\n添加项目文档和 Claude Code 配置\n\n- 添加 .claude/instructions.md 中文响应配置\n- 添加 CLAUDE.md 项目架构说明文档\n- 添加 help.md Claude Code 使用指南\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(dir:*)"
     ],
     "deny": [],
     "ask": []
