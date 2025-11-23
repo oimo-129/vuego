@@ -13,7 +13,7 @@ const userStore = useUserStore();
 const formData = ref({
   account:'xiaotuxian001',
   password: '123456',
-  agree: false
+  agree: true
 })
 //规则数据对象
 const rules = {

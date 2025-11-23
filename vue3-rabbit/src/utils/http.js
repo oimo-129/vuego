@@ -1,7 +1,7 @@
 //axios基础封装
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
-
+import { useUserStore } from '@/stores/user'
 //axios实例
 const httpInstance = axios.create(
     {
@@ -13,9 +13,24 @@ const httpInstance = axios.create(
 
 // axios请求拦截器
 httpInstance.interceptors.request.use(config => {
-    return config
+  //载入token
+  const userStore = useUserStore()
+  const token = userStore.userInfo.token
+  if(token){
+
+    // 请求头的内部参数
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  
+  return config
   }, e => Promise.reject(e))
   
+
+
+
+
+
+
   // axios响应式拦截器,在登录模块时重新建立
 httpInstance.interceptors.response.use(
   (res) => res.data,

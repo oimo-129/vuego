@@ -1,9 +1,18 @@
 <script setup>
 import { ref }  from 'vue'
 import { useRouter } from 'vue-router'
-const isLogin = ref(false)
+//根据用户是否有token，判断是否使用相关页面
+
+import { useUserStore } from '@/stores/user'
+const userStore = useUserStore()
 const router = useRouter()
 
+//退出动作
+const confirm = () => {
+  console.log('用户执行了退出操作')
+  userStore.clearUserInfo()
+  router.push('/login')
+}
 
 </script>
 
@@ -11,7 +20,7 @@ const router = useRouter()
   <nav class="app-topnav">
     <div class="container">
       <ul>
-        <template v-if="isLogin">
+        <template v-if="userStore.userInfo.token">
 
          <li>
       <RouterLink to="test">测试</RouterLink>
@@ -19,11 +28,12 @@ const router = useRouter()
 
           <li>
           <a href="javascript:;">
-          <i class="iconfont icon-user"></i>周杰伦</a>
+          <i class="iconfont icon-user"></i>{{ userStore.userInfo.account }}</a>
           </li>
 
+          <!-- 退出登录模块 -->
           <li>
-            <el-popconfirm title="确认退出吗?" confirm-button-text="确认" cancel-button-text="取消">
+            <el-popconfirm @confirm="confirm" title="确认退出吗?" confirm-button-text="确认" cancel-button-text="取消">
               <template #reference>
                 <a href="javascript:;">退出登录</a>
               </template>

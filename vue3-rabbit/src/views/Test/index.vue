@@ -1,27 +1,31 @@
-<script lang="ts" setup>
-//双向绑定
-import { ref } from 'vue';
-const input = ref('')
-
-const handleClick = () => {
-  console.log('当前输入框的值为:', input.value);
-}
-</script>
-
 <template>
-  <div class="container">
-    <el-input v-model="input" style="width: 240px" placeholder="测试双向绑定" />
-    <el-button type="primary" @click="handleClick">测试</el-button>
-  </div>
-  
+  <el-button plain @click="open">Click to open the Message Box</el-button>
 </template>
 
+<script lang="ts" setup>
+import { ElMessage, ElMessageBox } from 'element-plus'
 
-<style scoped>
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
+const open = () => {
+  ElMessageBox.confirm(
+    'proxy will permanently delete the file. Continue?',
+    'Warning',
+    {
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancel',
+      type: 'warning',
+    }
+  )
+    .then(() => {
+      ElMessage({
+        type: 'success',
+        message: 'Delete completed',
+      })
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: 'Delete canceled',
+      })
+    })
 }
-</style>
+</script>
