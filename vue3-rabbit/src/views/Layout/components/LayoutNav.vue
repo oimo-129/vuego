@@ -12,6 +12,10 @@ const confirm = () => {
   console.log('用户执行了退出操作')
   userStore.clearUserInfo()
   router.push('/login')
+   ElMessage({
+          type:'success',
+          message:'退出成功！！！！！'
+        })
 }
 
 </script>
