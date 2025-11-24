@@ -7,7 +7,7 @@ import ImageView from '@/components/ImageView.vue';
 import XtxSku from '@/components/XtxSku.vue';
 //全局组件暴露
 
-
+//这里的逻辑是不是应该换成composables里定义，防止逻辑断掉？？
 export const myplugin = {
     install(app) {
         app.component("ImageView", ImageView);

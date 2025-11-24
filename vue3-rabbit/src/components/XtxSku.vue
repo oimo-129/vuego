@@ -145,6 +145,7 @@ export default {
     return { clickSpecs }
   }
 }
+// sku类似一个类，会暴露出去相关属性
 </script>
 
 <style scoped lang="scss">
