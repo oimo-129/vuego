@@ -4,8 +4,7 @@ import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import DetailHot from './components/DetailHot.vue'
 
-//添加购物车组件
-import CartList from '@/views/CartList/index.vue'
+
 
 import { useCartStore } from '@/stores/cartStore'
 
@@ -37,6 +36,7 @@ const countChange = () => { }
 const addCart = () => {
   //选择才会添加到购物车
   if (skuObj.skuId) {
+    ElMessage.success("添加商品成功")
     cartStore.addCart({
       id: goods.value.id,
       name: goods.value.name,

@@ -11,7 +11,8 @@ import Category from '@/views/Category/index.vue';
 import SubCategory from '@/views/SubCategory/index.vue';
 //详情页
 import Detail from '@/views/Detail/index.vue';
-
+//列表购物车
+import CartList from '@/views/CartList/index.vue';
 //引入自己编写的测试组件
 import Test from '@/views/Test/index.vue';
 
@@ -26,14 +27,15 @@ const router = createRouter({
                 { path: '', component: Home },
                 { path: 'category/:id', component: Category },
                 { path: 'category/sub/:id', name: 'subCategory', component: SubCategory },
-                { path: 'detail/:id', name: 'detail', component: Detail }
+                { path: 'detail/:id', name: 'detail', component: Detail },
+                { path: 'cartlist', name: 'cartlist', component: CartList },
             ]
         },
         {
             path: '/login',
             name: 'login',
             component: Login,
-        },
+        },     
         {
             path: '/test',
             name: 'test',

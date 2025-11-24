@@ -1,226 +1,236 @@
 <script setup>
-//这里进行渲染
+import { ref } from 'vue'
+
 import { useCartStore } from '@/stores/cartStore'
 
+const cartList = ref([])
 const cartStore = useCartStore()
+cartList.value = cartStore.cartList
+
+//v-model的比较高级的使用
+
+// 单选回调
+const singleCheck = (i, selected) => {
+  console.log(i, selected)
+  // store cartList 数组 无法知道要修改谁的选中状态？
+  // 除了selected补充一个用来筛选的参数 - skuId
+  cartStore.singleCheck(i.skuId, selected)
+}
 
 
+const allCheck = (selected) => {
+  cartStore.allCheck(selected)
+}
 </script>
 
 <template>
-  <div class="cart">
-    <a class="curr" href="javascript:;">
-      <i class="iconfont icon-cart"></i><em>{{ cartStore.cartList.length }}</em>
-    </a>
-    <div class="layer">
-      <div class="list">
-        
-        <div class="item" v-for="i in cartStore.cartList" :key="i">
-          <RouterLink to="">
-            <img :src="i.picture" alt="" />
-            <div class="center">
-              <p class="name ellipsis-2">
-                {{ i.name }}
-              </p>
-              <p class="attr ellipsis">{{ i.attrsText }}</p>
-            </div>
-            <div class="right">
-              <p class="price">&yen;{{ i.price }}</p>
-              <p class="count">x{{ i.count }}</p>
-            </div>
-          </RouterLink>
-          <i class="iconfont icon-close-new" @click="cartStore.delCart(i.skuId)"></i>
-        </div>
-       
+  <div class="xtx-cart-page">
+    <div class="container m-top-20">
+      <div class="cart">
+        <table>
+          <thead>
+            <tr>
+              <th width="120">
+              <!-- 这里是全选 -->
+              <!-- 这里面有个很纠结的事件逻辑需要理解 -->
+                <el-checkbox :model-value="cartStore.isAll" @change="(val) => { 
+      console.log('全选框新状态:', val)
+      allCheck(val) 
+    }" />
+              </th>
+              <th width="400">商品信息</th>
+              <th width="220">单价</th>
+              <th width="180">数量</th>
+              <th width="180">小计</th>
+              <th width="140">操作</th>
+            </tr>
+          </thead>
+          <!-- 商品列表 -->
+          <tbody>
+            <tr v-for="i in cartList" :key="i.id">
+              <td>
+              <!-- 这里是单选 -->
+                <el-checkbox :model-value="i.selected" @change="(selected) => singleCheck(i, selected)" />
+              </td>
+              <td>
+                <div class="goods">
+                  <RouterLink to="/"><img :src="i.picture" alt="" /></RouterLink>
+                  <div>
+                    <p class="name ellipsis">
+                      {{ i.name }}
+                    </p>
+                  </div>
+                </div>
+              </td>
+              <td class="tc">
+                <p>&yen;{{ i.price }}</p>
+              </td>
+              <td class="tc">
+                <el-input-number v-model="i.count" />
+              </td>
+              <td class="tc">
+                <p class="f16 red">&yen;{{ (i.price * i.count).toFixed(2) }}</p>
+              </td>
+              <td class="tc">
+                <p>
+                  <el-popconfirm title="确认删除吗?" confirm-button-text="确认" cancel-button-text="取消" @confirm="delCart(i)">
+                    <template #reference>
+                      <a href="javascript:;">删除</a>
+                    </template>
+                  </el-popconfirm>
+                </p>
+              </td>
+            </tr>
+            <tr v-if="cartList.length === 0">
+              <td colspan="6">
+                <div class="cart-none">
+                  <el-empty description="购物车列表为空">
+                    <el-button type="primary">随便逛逛</el-button>
+                  </el-empty>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+
+        </table>
       </div>
-      <div class="foot">
-        <div class="total">
-          <p>共 {{ cartStore.allCount }} 件商品</p>
-          <p>&yen; {{ cartStore.allPrice.toFixed(2) }} </p>
+      <!-- 操作栏 -->
+      <div class="action">
+        <div class="batch">
+          共 {{ cartStore.allCount }} 件商品，已选择 {{ cartStore.selectedCount }} 件，商品合计：
+          <span class="red">¥ {{ cartStore.selectedPrice.toFixed(2) }} </span>
         </div>
-        <el-button size="large" type="primary"  @click="$router.push('/cartlist')"> 去购物车结算</el-button>
+        <div class="total">
+          <el-button size="large" type="primary" >下单结算</el-button>
+        </div>
       </div>
     </div>
-</div>
+  </div>
 </template>
 
 <style scoped lang="scss">
-.cart {
-  width: 50px;
-  position: relative;
-  z-index: 600;
+.xtx-cart-page {
+  margin-top: 20px;
 
-  .curr {
-    height: 32px;
-    line-height: 32px;
-    text-align: center;
-    position: relative;
-    display: block;
-
-    .icon-cart {
-      font-size: 22px;
-    }
-
-    em {
-      font-style: normal;
-      position: absolute;
-      right: 0;
-      top: 0;
-      padding: 1px 6px;
-      line-height: 1;
-      background: $helpColor;
-      color: #fff;
-      font-size: 12px;
-      border-radius: 10px;
-      font-family: Arial;
-    }
-  }
-
-  &:hover {
-    .layer {
-      opacity: 1;
-      transform: none;
-    }
-  }
-
-  .layer {
-    opacity: 0;
-    transition: all 0.4s 0.2s;
-    transform: translateY(-200px) scale(1, 0);
-    width: 400px;
-    height: 400px;
-    position: absolute;
-    top: 50px;
-    right: 0;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  .cart {
     background: #fff;
-    border-radius: 4px;
-    padding-top: 10px;
+    color: #666;
 
-    &::before {
-      content: "";
-      position: absolute;
-      right: 14px;
-      top: -10px;
-      width: 20px;
-      height: 20px;
-      background: #fff;
-      transform: scale(0.6, 1) rotate(45deg);
-      box-shadow: -3px -3px 5px rgba(0, 0, 0, 0.1);
+    table {
+      border-spacing: 0;
+      border-collapse: collapse;
+      line-height: 24px;
+
+      th,
+      td {
+        padding: 10px;
+        border-bottom: 1px solid #f5f5f5;
+
+        &:first-child {
+          text-align: left;
+          padding-left: 30px;
+          color: #999;
+        }
+      }
+
+      th {
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 50px;
+      }
+    }
+  }
+
+  .cart-none {
+    text-align: center;
+    padding: 120px 0;
+    background: #fff;
+
+    p {
+      color: #999;
+      padding: 20px 0;
+    }
+  }
+
+  .tc {
+    text-align: center;
+
+    a {
+      color: $xtxColor;
     }
 
-    .foot {
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      height: 70px;
-      width: 100%;
-      padding: 10px;
-      display: flex;
-      justify-content: space-between;
-      background: #f8f8f8;
-      align-items: center;
+    .xtx-numbox {
+      margin: 0 auto;
+      width: 120px;
+    }
+  }
 
-      .total {
-        padding-left: 10px;
+  .red {
+    color: $priceColor;
+  }
+
+  .green {
+    color: $xtxColor;
+  }
+
+  .f16 {
+    font-size: 16px;
+  }
+
+  .goods {
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 100px;
+      height: 100px;
+    }
+
+    >div {
+      width: 280px;
+      font-size: 16px;
+      padding-left: 10px;
+
+      .attr {
+        font-size: 14px;
         color: #999;
-
-        p {
-          &:last-child {
-            font-size: 18px;
-            color: $priceColor;
-          }
-        }
       }
     }
   }
 
-  .list {
-    height: 310px;
-    overflow: auto;
-    padding: 0 10px;
+  .action {
+    display: flex;
+    background: #fff;
+    margin-top: 20px;
+    height: 80px;
+    align-items: center;
+    font-size: 16px;
+    justify-content: space-between;
+    padding: 0 30px;
 
-    &::-webkit-scrollbar {
-      width: 10px;
-      height: 10px;
+    .xtx-checkbox {
+      color: #999;
     }
 
-    &::-webkit-scrollbar-track {
-      background: #f8f8f8;
-      border-radius: 2px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: #eee;
-      border-radius: 10px;
-    }
-
-    &::-webkit-scrollbar-thumb:hover {
-      background: #ccc;
-    }
-
-    .item {
-      border-bottom: 1px solid #f5f5f5;
-      padding: 10px 0;
-      position: relative;
-
-      i {
-        position: absolute;
-        bottom: 38px;
-        right: 0;
-        opacity: 0;
-        color: #666;
-        transition: all 0.5s;
-      }
-
-      &:hover {
-        i {
-          opacity: 1;
-          cursor: pointer;
-        }
-      }
-
+    .batch {
       a {
-        display: flex;
-        align-items: center;
-
-        img {
-          height: 80px;
-          width: 80px;
-        }
-
-        .center {
-          padding: 0 10px;
-          width: 200px;
-
-          .name {
-            font-size: 16px;
-          }
-
-          .attr {
-            color: #999;
-            padding-top: 5px;
-          }
-        }
-
-        .right {
-          width: 100px;
-          padding-right: 20px;
-          text-align: center;
-
-          .price {
-            font-size: 16px;
-            color: $priceColor;
-          }
-
-          .count {
-            color: #999;
-            margin-top: 5px;
-            font-size: 16px;
-          }
-        }
+        margin-left: 20px;
       }
     }
+
+    .red {
+      font-size: 18px;
+      margin-right: 20px;
+      font-weight: bold;
+    }
   }
+
+  .tit {
+    color: #666;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 50px;
+  }
+
 }
 </style>
