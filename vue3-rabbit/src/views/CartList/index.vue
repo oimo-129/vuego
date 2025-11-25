@@ -21,6 +21,11 @@ const singleCheck = (i, selected) => {
 const allCheck = (selected) => {
   cartStore.allCheck(selected)
 }
+
+// 删除单个商品
+const delCart = (goods) => {
+  cartStore.delCart(goods.skuId)
+}
 </script>
 
 <template>

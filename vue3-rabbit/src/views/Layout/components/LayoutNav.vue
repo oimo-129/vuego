@@ -3,7 +3,7 @@ import { ref }  from 'vue'
 import { useRouter } from 'vue-router'
 //根据用户是否有token，判断是否使用相关页面
 
-import { useUserStore } from '@/stores/user'
+import { useUserStore } from '@/stores/userStore'
 const userStore = useUserStore()
 const router = useRouter()
 

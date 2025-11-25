@@ -5,7 +5,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 // import { loginAPI } from '@/apis/login'
 //引入集中状态管理
-import { useUserStore } from "@/stores/user"
+import { useUserStore } from "@/stores/userStore"
 
 
 const userStore = useUserStore();
