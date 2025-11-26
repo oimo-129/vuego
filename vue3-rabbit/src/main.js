@@ -15,7 +15,6 @@ import router from './router'
 import { createPinia } from 'pinia'
 
 
-
 const pinia = createPinia()
     //引入持久化插件
 
