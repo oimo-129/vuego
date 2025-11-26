@@ -9,7 +9,6 @@ const router = useRouter()
 
 //退出动作
 const confirm = () => {
-  console.log('用户执行了退出操作')
   userStore.clearUserInfo()
   router.push('/login')
    ElMessage({

@@ -33,3 +33,13 @@ export const delCartAPI = (ids) => {
       }
     })
   }
+
+
+//合并购物车需求
+  export const mergeCartAPI = (data) => {
+    return request({
+      url: '/member/cart/merge',
+      method: 'POST',
+      data
+    })
+  }

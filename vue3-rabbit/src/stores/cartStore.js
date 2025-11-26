@@ -56,6 +56,11 @@ export const useCartStore = defineStore('cart', () => {
 
   }
 
+
+  //用户退出，执行清除购物车操作
+  const clearCart = () => {
+    cartList.value = []
+  }
  
   //0是初始值，这里面有个隐含的含义，a代表目标值，c代表数组的元素，c.count就是属性
   const allCount = computed(() => cartList.value.reduce((a, c) => a + c.count, 0))
@@ -98,7 +103,9 @@ export const useCartStore = defineStore('cart', () => {
     allCheck,//同步全选
     isAll,//是否全选
     selectedCount,
-    selectedPrice
+    selectedPrice,
+    clearCart,
+    updateNewList
   }
 },
   //添加持久化操作

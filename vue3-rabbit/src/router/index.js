@@ -1,16 +1,12 @@
 //添加路由设置
-//引入二级路由
-// 添加路由设置
 import { createRouter, createWebHistory } from 'vue-router';
-
-// 引入页面组件
 import Layout from '@/views/Layout/index.vue';
 import Home from '@/views/Home/index.vue';
 import Login from '@/views/Login/index.vue';
 import Category from '@/views/Category/index.vue';
 import SubCategory from '@/views/SubCategory/index.vue';
-//详情页
 import Detail from '@/views/Detail/index.vue';
+import Checkout from '@/views/Checkout/index.vue';
 //列表购物车
 import CartList from '@/views/CartList/index.vue';
 //引入自己编写的测试组件
@@ -29,6 +25,7 @@ const router = createRouter({
                 { path: 'category/sub/:id', name: 'subCategory', component: SubCategory },
                 { path: 'detail/:id', name: 'detail', component: Detail },
                 { path: 'cartlist', name: 'cartlist', component: CartList },
+                { path: 'checkout', name: 'checkout', component: Checkout },
             ]
         },
         {
