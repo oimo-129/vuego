@@ -20,29 +20,6 @@ stores，状态管理
 项目资料网页
 https://xiaobaicai350.github.io/2023/06/18/%E5%B0%8F%E5%85%94%E9%B2%9C%E9%A1%B9%E7%9B%AE/
 
-## 字体图标使用
-
-### 使用 iconfont
-1. 在 iconfont.cn 选择图标并下载
-2. 将字体文件放入 `src/assets/fonts` 目录
-3. 在 `main.js` 中引入：
-```javascript
-import '@/assets/fonts/iconfont.css'
-```
-4. 在组件中使用：
-```html
-<i class="iconfont icon-xxx"></i>
-```
-
-### 使用 Element Plus 图标
-```bash
-npm install @element-plus/icons-vue
-```
-
-```javascript
-import { Plus, Delete } from '@element-plus/icons-vue'
-```
-
 ## 技术栈说明
 
 - **Vite**：新一代前端构建工具，比 Webpack 更快
@@ -96,3 +73,8 @@ scss的简单使用，自己总要写一份吧
    - 变量、函数、对象
    - 数组方法（map、filter）
    - ES6 语法（箭头函数、解构）
+   
+   
+
+Echart 数据可视化工具的使用
+
