@@ -2,7 +2,7 @@
 
 //这里进行使用测试
 import { useScroll } from '@vueuse/core';
-import { useCategoryStore } from '@/stores/category'
+import { useCategoryStore } from '@/stores/categoryStore'
 //import { storeToRefs } from 'pinia'
 import { watch } from 'vue'
 

@@ -6,7 +6,7 @@ import LayoutFooter from './components/LayoutFooter.vue'
 import LayoutFixed from './components/LayoutFixed.vue'
 
 //在这里引入状态管理
-import { useCategoryStore } from '@/stores/category'
+import { useCategoryStore } from '@/stores/categoryStore'
 import {onMounted } from 'vue';
 const categoryStore = useCategoryStore()
 

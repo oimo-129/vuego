@@ -3,7 +3,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { useUserStore } from './userStore'
-import { insertCartAPI, findNewCartListAPI, delCartAPI } from '@/apis/cart'
+import { insertCartAPI, findNewCartListAPI, delCartAPI, updateCartAPI, updateCartSelectedAPI } from '@/apis/cart'
 
 export const useCartStore = defineStore('cart', () => {
   // 1. 定义state - cartList
@@ -70,17 +70,59 @@ export const useCartStore = defineStore('cart', () => {
 
   //接着添加同步单选的功能
   // 单选功能
-  const singleCheck = (skuId, selected) => {
-    // 通过skuId找到要修改的那一项 然后把它的selected修改为传过来的selected
-    const item = cartList.value.find((item) => item.skuId === skuId)
-    item.selected = selected
+  const singleCheck = async (skuId, selected) => {
+    console.log("=== singleCheck 调用 ===")
+    console.log("skuId:", skuId)
+    console.log("selected:", selected)
+    console.log("isLogin:", isLogin.value)
+
+    if (isLogin.value) {
+      // 登录状态：调用接口更新服务器数据
+      const item = cartList.value.find((item) => item.skuId === skuId)
+      console.log("找到的商品:", item)
+
+      if (!item) {
+        console.error("❌ 未找到商品！skuId:", skuId)
+        return
+      }
+
+      console.log("准备调用 API，item.id:", item.id)
+      await updateCartAPI(item.id, { selected })
+      console.log("✅ API 调用成功，正在刷新购物车列表...")
+      // 更新本地列表
+      await updateNewList()
+      console.log("✅ 购物车列表已刷新")
+    } else {
+      // 未登录状态：只更新本地数据
+      const item = cartList.value.find((item) => item.skuId === skuId)
+      item.selected = selected
+      console.log("未登录，仅更新本地")
+    }
+    console.log("=======================")
   }
 
   // 全选
   // 全选功能action
-  const allCheck = (selected) => {
-    // 把cartList中的每一项的selected都设置为当前的全选框状态
-    cartList.value.forEach(item => item.selected = selected)
+  const allCheck = async (selected) => {
+    console.log("=== allCheck 调用 ===")
+    console.log("selected:", selected)
+    console.log("isLogin:", isLogin.value)
+
+    if (isLogin.value) {
+      // 登录状态：调用接口更新服务器数据（批量更新所有商品）
+      const ids = cartList.value.map(item => item.skuId)
+      console.log("准备批量更新，skuIds:", ids)
+      await updateCartSelectedAPI(selected, ids)
+      console.log("✅ 批量更新 API 调用成功")
+      // 更新本地列表
+      await updateNewList()
+      console.log("✅ 购物车列表已刷新")
+    } else {
+      // 未登录状态：只更新本地数据
+      cartList.value.forEach(item => item.selected = selected)
+      console.log("未登录，仅更新本地")
+    }
+    console.log("====================")
   }
 
 

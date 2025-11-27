@@ -1,17 +1,43 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 import { useCartStore } from '@/stores/cartStore'
 
 const cartList = ref([])
 const cartStore = useCartStore()
-cartList.value = cartStore.cartList
+
+// 初始化购物车数据
+const initCart = async () => {
+  // 如果是登录状态，从服务器获取最新数据
+  if (cartStore.cartList.length > 0) {
+    // 检查是否登录（通过 token 判断）
+    const userStore = await import('@/stores/userStore')
+    if (userStore.useUserStore().userInfo.token) {
+      console.log("登录状态，从服务器刷新购物车数据...")
+      await cartStore.updateNewList()
+    }
+  }
+
+  cartList.value = cartStore.cartList
+
+  console.log("=== 购物车调试信息 ===")
+  console.log("1. 购物车商品列表:", cartList.value)
+  console.log("2. 商品数量:", cartList.value.length)
+  if (cartList.value.length > 0) {
+    console.log("3. 第一个商品详情:", cartList.value[0])
+    console.log("4. 第一个商品 selected:", cartList.value[0].selected)
+  }
+  console.log("5. 已选中商品数量:", cartStore.selectedCount)
+  console.log("====================")
+}
+
+onMounted(() => initCart())
 
 //v-model的比较高级的使用
 
 // 单选回调
 const singleCheck = (i, selected) => {
-  console.log(i, selected)
+  console.log("CartList singleCheck 触发，商品:", i, "新状态:", selected)
   // store cartList 数组 无法知道要修改谁的选中状态？
   // 除了selected补充一个用来筛选的参数 - skuId
   cartStore.singleCheck(i.skuId, selected)
@@ -19,6 +45,7 @@ const singleCheck = (i, selected) => {
 
 
 const allCheck = (selected) => {
+  console.log("CartList allCheck 触发，新状态:", selected)
   cartStore.allCheck(selected)
 }
 

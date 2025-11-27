@@ -1,7 +1,7 @@
 <script setup>
 //添加状态管理接口
 
-import { useCategoryStore } from '@/stores/category'
+import { useCategoryStore } from '@/stores/categoryStore'
 
 const categoryStore = useCategoryStore()
 

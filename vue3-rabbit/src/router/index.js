@@ -9,6 +9,7 @@ import Detail from '@/views/Detail/index.vue';
 import Checkout from '@/views/Checkout/index.vue';
 //列表购物车
 import CartList from '@/views/CartList/index.vue';
+import Pay from '@/views/Pay/index.vue';
 //引入自己编写的测试组件
 import Test from '@/views/Test/index.vue';
 
@@ -26,6 +27,7 @@ const router = createRouter({
                 { path: 'detail/:id', name: 'detail', component: Detail },
                 { path: 'cartlist', name: 'cartlist', component: CartList },
                 { path: 'checkout', name: 'checkout', component: Checkout },
+                { path: 'pay', name: 'pay', component: Pay },
             ]
         },
         {
