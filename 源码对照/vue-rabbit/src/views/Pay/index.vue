@@ -11,6 +11,7 @@ const getPayInfo = async () => {
   const res = await getOrderAPI(route.query.id)
   payInfo.value = res.result
   // 初始化倒计时秒数
+  console.log("我来拿事件：", res.result.countdown)
   start(res.result.countdown)
 }
 onMounted(() => getPayInfo())

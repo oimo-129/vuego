@@ -10,6 +10,8 @@ import Checkout from '@/views/Checkout/index.vue';
 //列表购物车
 import CartList from '@/views/CartList/index.vue';
 import Pay from '@/views/Pay/index.vue';
+import PayCallback from '@/views/Pay/PayBack.vue';
+
 //引入自己编写的测试组件
 import Test from '@/views/Test/index.vue';
 
@@ -28,6 +30,7 @@ const router = createRouter({
                 { path: 'cartlist', name: 'cartlist', component: CartList },
                 { path: 'checkout', name: 'checkout', component: Checkout },
                 { path: 'pay', name: 'pay', component: Pay },
+                
             ]
         },
         {
@@ -39,7 +42,9 @@ const router = createRouter({
             path: '/test',
             name: 'test',
             component: Test,
-        }
+        },
+        {path: '/paycallback',name: 'paycallback',component: PayCallback} ,
+
     ],
     //添加路由行为配置项，vue-router提供的
     scrollBehavior() {

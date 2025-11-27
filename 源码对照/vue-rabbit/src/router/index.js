@@ -52,10 +52,10 @@ const router = createRouter({
           path: 'pay',
           component: Pay
         },
-        {
-          path: 'paycallback',
-          component: PayBack
-        },
+          {
+            path: 'paycallback',
+            component: PayBack
+          },
         {
           path: 'member',
           component: Member,

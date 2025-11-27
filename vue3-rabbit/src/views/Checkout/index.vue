@@ -1,38 +1,40 @@
 <script setup>
-import { getCheckoutInfoAPI, createOrderAPI } from '@/apis/checkout'
-import { onMounted, ref } from 'vue'
+import { getCheckInfoAPI, createOrderAPI } from '@/apis/checkout'
 import { useRouter } from 'vue-router'
+import { onMounted, ref } from 'vue'
+import { useCartStore } from '@/stores/cartStore'
+
+//使用自己测试的商品
+import { goods } from '@/mock/goods'
+const cartStore = useCartStore()
 const router = useRouter()
-
-
+// 获取结算信息
 const checkInfo = ref({}) // 订单对象
-const curAddress = ref({}) // 地址对象
-
-const getCheckoutInfo = async () => {
-  const res = await getCheckoutInfoAPI()
-  console.log("=== Checkout 调试信息 ===")
-  console.log("1. API 原始返回:", res)
-  console.log("2. result 对象:", res.result)
-  console.log("3. goods 数组:", res.result?.goods)
-  console.log("4. goods 数组长度:", res.result?.goods?.length)
-  if (res.result?.goods?.length > 0) {
-    console.log("5. 第一个商品:", res.result.goods[0])
-  } else {
-    console.log("5. ⚠️ goods 数组为空或不存在！")
-  }
-  console.log("========================")
-
+const curAddress = ref({}) // 默认地址
+const getCheckInfo = async () => {
+  const res = await getCheckInfoAPI()
   checkInfo.value = res.result
-  // 这边适配默认地址
-  curAddress.value = checkInfo.value.userAddresses.find(item => item.isDefault === 0)
-  console.log("结算页面返回结果:",checkInfo.value)
+  // 适配默认地址,
+
+  //这个项目没法解决的一个bug，要进行结算，那就需要有商品，
+  //商品提交到购物车，按理说，就该存入到数据库，或者不存入数据库
+  //这里按照存入数据库，拿到数据库存放的指定用户商品列表，但是前置
+  //不记得了，没有将购物车商品，提交到后台，存入数据库的操作，导致
+  //这个商品，这个用户，用于结算的页面里，商品数量始终是0，那这样，就触发不了结算页面
+  //推测是程序本来就缺乏处理提交的接口，后期自己写后端弥补
+  console.log("雁阵商品：", checkInfo.value.goods.length)
+  // 从地址列表中筛选出来 isDefault === 0 那一项
+  const item = checkInfo.value.userAddresses.find(item => item.isDefault === 0)
+  curAddress.value = item
 }
 
-onMounted(() => getCheckoutInfo())  
+onMounted(() => getCheckInfo())
 
+// 控制弹框打开
 const showDialog = ref(false)
 
-//完成地址切换
+
+// 切换地址
 const activeAddress = ref({})
 const switchAddress = (item) => {
   activeAddress.value = item
@@ -43,15 +45,22 @@ const confirm = () => {
   activeAddress.value = {}
 }
 
-
 // 创建订单
 const createOrder = async () => {
+
+
+  //遍历一下输入的商品
+  //注意，这是打的补丁，用的假数据
+  goods.forEach(item => {
+    console.log("商品id：", item.skuId, "商品数量：", item.count)
+  })
+  
   const res = await createOrderAPI({
     deliveryTimeType: 1,
     payType: 1,
     payChannel: 1,
     buyerMessage: '',
-    goods: checkInfo.value.goods.map(item => {
+    goods: goods.map(item => {
       return {
         skuId: item.skuId,
         count: item.count
@@ -59,6 +68,7 @@ const createOrder = async () => {
     }),
     addressId: curAddress.value.id
   })
+  console.log("我自己创建的订单创建成功：", res.result)
   const orderId = res.result.id
   router.push({
     path: '/pay',
@@ -66,7 +76,10 @@ const createOrder = async () => {
       id: orderId
     }
   })
+  // 更新购物车
+  cartStore.updateNewList()
 }
+
 </script>
 
 <template>
@@ -86,8 +99,8 @@ const createOrder = async () => {
               </ul>
             </div>
             <div class="action">
-              <el-button size="large"  @click="showDialog = true">切换地址</el-button>
-              <el-button size="large" @click="addFlag = true">添加地址</el-button>
+              <el-button size="large" @click="showDialog = true">切换地址</el-button>
+              <el-button size="large">添加地址</el-button>
             </div>
           </div>
         </div>
@@ -161,32 +174,31 @@ const createOrder = async () => {
         </div>
         <!-- 提交订单 -->
         <div class="submit">
-          <el-button type="primary" size="large"  @click="createOrder"  >提交订单</el-button>
+          <el-button @click="createOrder" type="primary" size="large">提交订单</el-button>
         </div>
       </div>
     </div>
   </div>
   <!-- 切换地址 -->
-  <el-dialog  v-model="showDialog" title="切换收货地址" width="30%" center>
-  <div class="addressWrapper">
-    <div class="text item"  :class="{ active: activeAddress.id === item.id }"  v-for="item in checkInfo.userAddresses"  @click="switchAddress(item)" :key="item.id">
-      <ul>
-      <li><span>收<i />货<i />人：</span>{{ item.receiver }} </li>
-      <li><span>联系方式：</span>{{ item.contact }}</li>
-      <li><span>收货地址：</span>{{ item.fullLocation + item.address }}</li>
-      </ul>
+  <el-dialog v-model="showDialog" title="切换收货地址" width="30%" center>
+    <div class="addressWrapper">
+      <div class="text item" :class="{ active: activeAddress.id === item.id }" @click="switchAddress(item)"
+        v-for="item in checkInfo.userAddresses" :key="item.id">
+        <ul>
+          <li><span>收<i />货<i />人：</span>{{ item.receiver }} </li>
+          <li><span>联系方式：</span>{{ item.contact }}</li>
+          <li><span>收货地址：</span>{{ item.fullLocation + item.address }}</li>
+        </ul>
+      </div>
     </div>
-  </div>
-  <template #footer>
-    <span class="dialog-footer">
-      <el-button>取消</el-button>
-      <el-button type="primary"  @click="confirm">确定</el-button>
-    </span>
-  </template>
-</el-dialog>
-
-  <!-- 添加地址 -->
-</template>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button>取消</el-button>
+        <el-button type="primary" @click="confirm">确定</el-button>
+      </span>
+    </template>
+  </el-dialog>
+<!-- 添加地址 --></template>
 
 <style scoped lang="scss">
 .xtx-pay-checkout-page {
