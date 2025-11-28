@@ -44,14 +44,14 @@ httpInstance.interceptors.response.use(
     //通过拦截器的方式，发送信息？？没明白
     //状态码200正常，其他的会触发拦截器？
     console.log("post拦截器触发")
-    ElMessage(
-      {
-        type: 'warning',
-        message: e.response.data.message 
-      }
-    )
+    // ElMessage(
+    //   {
+    //     type: 'warning',
+    //     message: e.response.data.message 
+    //   }
+    // )
    // 401 token失效处理
-    if (e.response.status === 401) {
+    if (e.response?.status === 401) {
       const userStore = useUserStore()
       userStore.clearUserInfo()
       router.push('/login')

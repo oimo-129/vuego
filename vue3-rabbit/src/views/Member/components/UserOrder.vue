@@ -1,21 +1,35 @@
 <script setup>
 
-import { getUserOrder } from '@/apis/order'
+// import { getUserOrder } from '@/apis/order'
 import { onMounted, ref } from 'vue'
+import { mockOrderData } from '@/mock/order'
 
 // 获取订单列表
 const orderList = ref([])
+const total = ref(0)
 const params = ref({
   orderState: 0,
   page: 1,
   pageSize: 2
 })
 const getOrderList = async () => {
-  const res = await getUserOrder(params.value)
-  orderList.value = res.result.items
-  total.value = res.result.counts
+  // 使用 mock 数据并实现分页
+  const { page, pageSize } = params.value
+  const startIndex = (page - 1) * pageSize
+  const endIndex = startIndex + pageSize
+
+  orderList.value = mockOrderData.result.items.slice(startIndex, endIndex)
+  total.value = mockOrderData.result.counts
 }
 onMounted(() => getOrderList())
+
+// 页数切换
+const pageChange = (page) => {
+  params.value.page = page
+  getOrderList()
+}
+
+
 // tab列表
 const tabTypes = [
   { name: "all", label: "全部订单" },
@@ -27,6 +41,20 @@ const tabTypes = [
   { name: "cancel", label: "已取消" }
 ]
 
+
+//优化部分
+ // 创建格式化函数
+ const fomartPayState = (payState) => {
+    const stateMap = {
+      1: '待付款',
+      2: '待发货',
+      3: '待收货',
+      4: '待评价',
+      5: '已完成',
+      6: '已取消'
+    }
+    return stateMap[payState]
+  }
 
 </script>
 
@@ -73,7 +101,7 @@ const tabTypes = [
                 </ul>
               </div>
               <div class="column state">
-                <p>{{ order.orderState }}</p>
+                <p>{{ fomartPayState(order.orderState) }}</p>
                 <p v-if="order.orderState === 3">
                   <a href="javascript:;" class="green">查看物流</a>
                 </p>
@@ -109,9 +137,12 @@ const tabTypes = [
             </div>
           </div>
           <!-- 分页 -->
-          <div class="pagination-container">
-            <el-pagination background layout="prev, pager, next" />
-          </div>
+           <el-pagination 
+     :total="total" 
+     @current-change="pageChange" 
+     :page-size="params.pageSize" 
+     background
+     layout="prev, pager, next" />
         </div>
       </div>
 
