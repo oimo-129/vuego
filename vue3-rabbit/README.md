@@ -1,3 +1,9 @@
+12.1 JS加强，echart
+
+12.2.echart ,切图仔基础外加一种布局深入理解
+
+
+
 # Front-compress
 
 JS部分
@@ -18,10 +24,84 @@ const核心在于变量引用的不变性
 
 
 
+**2.判断类型最精确的方法：**
+
+```javascript
+Object.prototype.toString.call()
+```
 
 
-vue项目开发前置整合
-11.12
+
+**3.值类型与引用类型**（从写代码第一天起就知道，但是表述不清晰）
+
+
+
+1.值类型:7种，String ,boolen,int ,bigint ,(❌️)
+
+​				String ,Number,Boolen,Null,Undefined,Symbol,BigInt(7种)
+
+2.引用类型:变量存储的是内存地址，我们称之为引用，数据本身存放在堆
+
+​		4种：Object,Array,Function,其他对象
+
+3.函数传递参数，Javascript永远是按值传递，值传递是值的副本，引用传递是引用的副本
+
+```javascript
+function(obj){
+	obj.name="引用副本"
+	obj={name:"新对象"}
+}
+obj={name:"测试"}
+console.log(obj.name) //引用对象
+```
+
+4.const保证变量存储的地址不变,里面的属性可修改
+
+
+
+**5.Deep Copy ,Shadow Copy**
+
+- 按照我们对python里面的理解，深拷贝，就是拷贝整个对象，浅拷贝，只是拷贝内存地址？（❌️）
+
+- 浅拷贝只拷贝一层，共享引用；复制原始对象第一层属性，如果属性引用类型，则复制内存地址
+
+- 构造浅拷贝：Object.assign()，{...original}（扩展运算符）
+
+- 深拷贝递归地复制所有层级的属性，新旧对象完全独立
+
+- 构造深拷贝：JSON.parse(JSON.stringify())    structuredClone()
+
+- 手写一个深拷贝
+
+  ```
+  //注意边界
+  //注意递归？？？
+  。。。感觉不会写，等JS理解深入后，有缘在写吧
+  ```
+
+
+
+**6.Array**.Method()
+
+1. 迭代 forEach
+2. 修改原数组 splice
+3. 返回新数组 map,reduce
+
+```javascript
+//会修改原数组，不记得什么方法了
+shift()
+//转换与创建，新数组
+map()
+//筛选,返回新数组
+filter()
+//累加，我们探究过
+reduce(callback,initialize)//初始值 
+//删除，添加，修改原数组
+splice()
+```
+
+
+
 问：组件的通信方式
 
 
