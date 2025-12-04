@@ -8,7 +8,7 @@
 
 JS部分
 
-**1.var,let,const区别**
+### 1.var,let,const区别 
 
 1.作用域，2.变量提升TDZ，3.是否可重复声明，4.使用场景
 
@@ -100,7 +100,338 @@ reduce(callback,initialize)//初始值
 splice()
 ```
 
+### 7.对象的遍历
 
+``` javascript
+1.for...in...//遍历，自身，原型，可枚举，字符串类型数据
+//forEach 
+日常开发：2.Object.keys()//返回自身可枚举,字符串
+3.Object.getOwnPropertyNames()//自身全部，含不可枚举 
+const proto = {
+    protoProp: 'proto value'
+}
+const obj = Object.create(proto)//基于proto原型创建对象
+//字符串属性与Symbol属性的区别是什么？
+4.Reflect.ownKeys(obj)//es6,获取全部属性
+```
+
+
+
+### 8.隐式类型转化
+
+ 1.应付一个面试题： [ ] == ! [ ] ,
+
+2.解析它隐私类型转化的过程，
+
+3.这里面还有个优先级的判断
+
+4.对象转化的规则：ToPrimitive():toString( ) , valueOf( ) 两个方法的使用
+
+5.记住一个历史遗留bug: null == undefined => true  
+
+6.NaN == NaN,不等于任何值
+
+### 9.闭包的底层原理
+
+两个概念：执行上下文，代码的运行环境，
+
+作用域链：变量的查找路径，由词法作用域在函数定义时决定,找东西的路径
+
+闭包= 函数+其此法环境的引用 
+
+```javascript
+1. 执行上下文 (Execution Context, EC)
+浅显解释： 执行上下文就像是代码运行时的"工作环境"或"工作台"。每当JavaScript运行一段代码时，都会创建一个"工作环境"，这个环境里包含了：
+当前能用哪些变量
+当前的this是谁
+当前在哪个函数里
+代码案例：
+// 全局执行上下文
+var globalVar = '我是全局变量';
+
+function outer() {
+  // outer函数执行上下文
+  var outerVar = '我是outer的变量';
+  
+  console.log(globalVar); // 可以访问全局的
+  console.log(outerVar);  // 可以访问自己的
+  
+  function inner() {
+    // inner函数执行上下文
+    var innerVar = '我是inner的变量';
+    
+    console.log(globalVar); // 可以访问全局的
+    console.log(outerVar);  // 可以访问外层的
+    console.log(innerVar);  // 可以访问自己的
+  }
+  
+  inner();
+}
+
+outer();
+// console.log(innerVar); // 报错！全局访问不到inner里的变量
+执行栈的概念：
+function first() {
+  console.log('1. first函数开始');
+  second();
+  console.log('5. first函数结束');
+}
+
+function second() {
+  console.log('2. second函数开始');
+  third();
+  console.log('4. second函数结束');
+}
+
+function third() {
+  console.log('3. third函数执行');
+}
+
+first();
+
+// 执行栈变化过程：
+// [全局上下文]
+// [全局上下文, first上下文]
+// [全局上下文, first上下文, second上下文]
+// [全局上下文, first上下文, second上下文, third上下文]
+// [全局上下文, first上下文, second上下文] ← third执行完出栈
+// [全局上下文, first上下文] ← second执行完出栈
+// [全局上下文] ← first执行完出栈
+2. 作用域链 (Scope Chain)
+浅显解释： 作用域链就像"找东西的路径"。当你在函数里使用一个变量时，JavaScript会按照这个顺序找：
+先在当前函数里找
+找不到就去外层函数找
+还找不到就去更外层找
+一直找到全局
+再找不到就报错
+代码案例：
+// 案例1：基本的作用域链查找
+var level1 = '第1层-全局';
+
+function outer() {
+  var level2 = '第2层-outer';
+  
+  function middle() {
+    var level3 = '第3层-middle';
+    
+    function inner() {
+      var level4 = '第4层-inner';
+      
+      // 查找过程演示
+      console.log(level4); // 在自己这层找到了
+      console.log(level3); // 自己没有，往上一层找到了
+      console.log(level2); // 往上两层找到了
+      console.log(level1); // 一直找到全局找到了
+      // console.log(level5); // 报错！找遍了所有层都没有
+    }
+    
+    inner();
+  }
+  
+  middle();
+}
+
+outer();
+// 案例2：同名变量的查找（就近原则）
+var name = '全局的小明';
+
+function outer() {
+  var name = 'outer的小红';
+  
+  function inner() {
+    var name = 'inner的小刚';
+    console.log(name); // 输出：inner的小刚（找到最近的就停止）
+  }
+  
+  inner();
+  console.log(name); // 输出：outer的小红
+}
+
+outer();
+console.log(name); // 输出：全局的小明
+// 案例3：词法作用域（函数定义时决定，不是调用时决定）
+var x = 10;
+
+function foo() {
+  console.log(x); // 这里的x在哪找？
+}
+
+function bar() {
+  var x = 20;
+  foo(); // 在这里调用foo
+}
+
+bar(); // 输出：10（不是20！）
+// 因为foo定义时外层是全局，所以去全局找x
+// 不管在哪里调用foo，它的作用域链在定义时就确定了
+3. 闭包 (Closure)
+浅显解释： 闭包就像"记忆背包"。当一个函数被创建时，它会"记住"它出生时周围的变量环境。即使这个函数被带到别的地方执行，它依然能访问那些"童年"时的变量。 核心特点：
+内层函数可以访问外层函数的变量
+外层函数执行完了，变量依然保留（没被垃圾回收）
+可以实现数据私有化
+代码案例：
+// 案例1：最简单的闭包
+function createCounter() {
+  let count = 0; // 这个变量被"关"在里面了
+  
+  return function() {
+    count++; // 内层函数访问外层的count
+    console.log(count);
+  };
+}
+
+const counter1 = createCounter();
+counter1(); // 输出：1
+counter1(); // 输出：2
+counter1(); // 输出：3
+
+const counter2 = createCounter();
+counter2(); // 输出：1（全新的闭包，有自己独立的count）
+
+// count变量无法从外部直接访问
+// console.log(count); // 报错！访问不到
+// 案例2：私有变量（模拟银行账户）
+function createBankAccount(initialBalance) {
+  let balance = initialBalance; // 私有变量，外部无法直接访问
+  
+  return {
+    // 存钱
+    deposit: function(amount) {
+      if (amount > 0) {
+        balance += amount;
+        console.log(`存入${amount}元，余额：${balance}元`);
+      }
+    },
+    
+    // 取钱
+    withdraw: function(amount) {
+      if (amount > 0 && amount <= balance) {
+        balance -= amount;
+        console.log(`取出${amount}元，余额：${balance}元`);
+      } else {
+        console.log('余额不足或金额无效');
+      }
+    },
+    
+    // 查询余额
+    getBalance: function() {
+      return balance;
+    }
+  };
+}
+
+const myAccount = createBankAccount(1000);
+myAccount.deposit(500);   // 存入500元，余额：1500元
+myAccount.withdraw(300);  // 取出300元，余额：1200元
+console.log(myAccount.getBalance()); // 1200
+
+// balance无法直接访问或修改
+// myAccount.balance = 999999; // 不起作用
+// console.log(myAccount.balance); // undefined
+// 案例3：循环中的闭包陷阱（经典面试题）
+
+// ❌ 错误示例
+console.log('--- 错误示例 ---');
+for (var i = 1; i <= 3; i++) {
+  setTimeout(function() {
+    console.log(i); // 都输出4！
+  }, 1000);
+}
+// 原因：循环结束后i变成4，三个函数共享同一个i
+
+// ✅ 解决方案1：使用let（块级作用域）
+console.log('--- 解决方案1: let ---');
+for (let i = 1; i <= 3; i++) {
+  setTimeout(function() {
+    console.log(i); // 输出1, 2, 3
+  }, 1000);
+}
+// 原因：每次循环let创建新的i
+
+// ✅ 解决方案2：立即执行函数创建闭包
+console.log('--- 解决方案2: IIFE ---');
+for (var i = 1; i <= 3; i++) {
+  (function(j) { // 立即执行，j捕获当前i的值
+    setTimeout(function() {
+      console.log(j); // 输出1, 2, 3
+    }, 1000);
+  })(i);
+}
+// 案例4：实用闭包 - 函数柯里化
+function multiply(a) {
+  return function(b) {
+    return function(c) {
+      return a * b * c;
+    };
+  };
+}
+
+const result = multiply(2)(3)(4);
+console.log(result); // 24
+
+// 更实用的版本
+const multiplyBy2 = multiply(2);
+const multiplyBy2And3 = multiplyBy2(3);
+console.log(multiplyBy2And3(4)); // 24
+console.log(multiplyBy2And3(5)); // 30
+// 案例5：实用闭包 - 缓存函数结果
+function createCache() {
+  const cache = {}; // 私有缓存对象
+  
+  return function(key, value) {
+    if (value !== undefined) {
+      // 设置缓存
+      cache[key] = value;
+      console.log(`缓存已保存：${key} = ${value}`);
+    } else {
+      // 读取缓存
+      return cache[key];
+    }
+  };
+}
+
+const myCache = createCache();
+myCache('username', '小明');
+myCache('age', 18);
+
+console.log(myCache('username')); // 小明
+console.log(myCache('age'));      // 18
+三者关系总结
+// 综合示例：展示三者的关系
+var globalVar = '全局变量';
+
+function outer(outerParam) {
+  var outerVar = '外层变量';
+  
+  function inner(innerParam) {
+    var innerVar = '内层变量';
+    
+    // 【作用域链】：inner -> outer -> 全局
+    console.log(innerVar);   // 在inner找到
+    console.log(innerParam); // 在inner找到
+    console.log(outerVar);   // 在outer找到
+    console.log(outerParam); // 在outer找到
+    console.log(globalVar);  // 在全局找到
+  }
+  
+  return inner; // 【闭包】：inner记住了outer的变量
+}
+
+// 【执行上下文】：
+// 1. 全局上下文创建
+// 2. outer执行上下文创建
+// 3. outer执行上下文销毁（但变量没销毁，因为闭包）
+const innerFunc = outer('外层参数');
+
+// 4. inner执行上下文创建
+innerFunc('内层参数');
+```
+
+
+
+### 10.this
+
+ 
 
 
 
@@ -237,6 +568,10 @@ Echart 数据可视化工具的使用
 
 
 
+## Echarts
+
+
+
 ## 12.1
 
 明日需要修改简历，从echart，及切图还原开始
@@ -258,4 +593,8 @@ canvas,echart ,node写后端
 
 
 ## 12.12 出发
+
+## 磨炼技能
+
+echarts,切图，蓝湖，ant design,ps相关操作，gemini的相关使用，配置
 
