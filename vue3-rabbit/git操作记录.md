@@ -144,7 +144,7 @@ git branch -m old-name new-name
 # 清理远程分支引用
 git fetch --prune
 
-#清楚缓存
+#qing'chu缓存
 git reset
 ```
 
