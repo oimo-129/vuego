@@ -1,4 +1,4 @@
-//作初始化工作
+
 // import './assets/main.css'
 // 导入Element Plus样式
 import 'element-plus/dist/index.css'
